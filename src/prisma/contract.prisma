@@ -1,0 +1,248 @@
+// use prisma-next
+// Contrato corregido para el esquema dvdrental. Ejecuta `npx prisma-next contract emit`
+// tras cualquier cambio.
+
+enum MpaaRating {
+  @@type("pg/text@1")
+  G     = "G"
+  PG    = "PG"
+  PG_13 = "PG-13"
+  R     = "R"
+  NC_17 = "NC-17"
+}
+
+model Actor {
+  actorId    Int         @id(map: "actor_pkey") @default(autoincrement()) @map("actor_id")
+  firstName  String      @map("first_name")
+  lastName   String      @map("last_name")
+  lastUpdate TimestampString    @default(now()) @map("last_update")
+  // filmActors FilmActor[]
+
+  @@index([lastName], map: "idx_actor_last_name")
+  @@map("actor")
+}
+
+model Country {
+  countryId  Int      @id(map: "country_pkey") @default(autoincrement()) @map("country_id")
+  country    String
+  lastUpdate TimestampString @default(now()) @map("last_update")
+  cities     City[]
+
+  @@map("country")
+}
+
+model City {
+  cityId     Int       @id(map: "city_pkey") @default(autoincrement()) @map("city_id")
+  city       String
+  countryId  Int       @map("country_id")
+  lastUpdate TimestampString  @default(now()) @map("last_update")
+  addresses  Address[]
+  country    Country   @relation(fields: [countryId], references: [countryId], map: "fk_city")
+
+  @@index([countryId], map: "idx_fk_country_id")
+  @@map("city")
+}
+
+model Address {
+  addressId  Int        @id(map: "address_pkey") @default(autoincrement()) @map("address_id")
+  address    String
+  address2   String?
+  district   String
+  cityId     Int        @map("city_id")
+  postalCode String?    @map("postal_code")
+  phone      String
+  lastUpdate TimestampString   @default(now()) @map("last_update")
+  customers  Customer[]
+  staff      Staff[]
+  stores     Store[]
+  city       City       @relation(fields: [cityId], references: [cityId], map: "fk_address_city")
+
+  @@index([cityId], map: "idx_fk_city_id")
+  @@map("address")
+}
+
+model Category {
+  categoryId     Int            @id(map: "category_pkey") @default(autoincrement()) @map("category_id")
+  name           String
+  lastUpdate     TimestampString       @default(now()) @map("last_update")
+  filmCategories FilmCategory[]
+
+  @@map("category")
+}
+
+model Customer {
+  customerId Int       @id(map: "customer_pkey") @default(autoincrement()) @map("customer_id")
+  storeId    Int       @map("store_id")
+  firstName  String    @map("first_name")
+  lastName   String    @map("last_name")
+  email      String?
+  addressId  Int       @map("address_id")
+  activebool Boolean   @default(true)
+  createDate TimestampString  @default(now()) @map("create_date")
+  lastUpdate TimestampString? @default(now()) @map("last_update")
+  active     Int?
+  payments   Payment[]
+  rentals    Rental[]
+  address    Address   @relation(fields: [addressId], references: [addressId], onDelete: Restrict, onUpdate: Cascade, map: "customer_address_id_fkey")
+
+  @@index([addressId], map: "idx_fk_address_id")
+  @@index([storeId], map: "idx_fk_store_id")
+  @@index([lastName], map: "idx_last_name")
+  @@map("customer")
+}
+
+model Language {
+  languageId Int      @id(map: "language_pkey") @default(autoincrement()) @map("language_id")
+  name       String
+  lastUpdate TimestampString @default(now()) @map("last_update")
+  films      Film[]
+
+  @@map("language")
+}
+
+model Film {
+  filmId          Int            @id(map: "film_pkey") @default(autoincrement()) @map("film_id")
+  title           String
+  description     String?
+  // El dominio custom "year" del dvdrental original no es un tipo nativo soportado;
+  // se mapea a Int (el dominio en Postgres es sobre int4).
+  releaseYear     Int?           @map("release_year")
+  languageId      Int            @map("language_id")
+  rentalDuration  Int            @default(3) @map("rental_duration")
+  rentalRate      Float          @default(4.99) @map("rental_rate")
+  length          Int?
+  replacementCost Float          @default(19.99) @map("replacement_cost")
+  rating          MpaaRating?    @default(G)
+  lastUpdate      TimestampString       @default(now()) @map("last_update")
+  specialFeatures String[]       @map("special_features")
+  filmActors      FilmActor[]
+  filmCategories  FilmCategory[]
+  inventories     Inventory[]
+  language        Language       @relation(fields: [languageId], references: [languageId], onDelete: Restrict, onUpdate: Cascade, map: "film_language_id_fkey")
+
+  // La columna generada `fulltext` (tsvector + índice GiST) se omite: tsvector no es
+  // un tipo soportado en el contrato y la mantiene un trigger en la base de datos,
+  // no la aplicación.
+  @@index([languageId], map: "idx_fk_language_id")
+  @@index([title], map: "idx_title")
+  @@map("film")
+}
+
+model FilmActor {
+  actorId    Int      @map("actor_id")
+  filmId     Int      @map("film_id")
+  lastUpdate TimestampString @default(now()) @map("last_update")
+  actor      Actor    @relation(fields: [actorId], references: [actorId], onDelete: Restrict, onUpdate: Cascade, map: "film_actor_actor_id_fkey")
+  film       Film     @relation(fields: [filmId], references: [filmId], onDelete: Restrict, onUpdate: Cascade, map: "film_actor_film_id_fkey")
+
+  @@id([actorId, filmId], map: "film_actor_pkey")
+  @@index([filmId], map: "idx_fk_film_id")
+  @@map("film_actor")
+}
+
+model FilmCategory {
+  filmId     Int      @map("film_id")
+  categoryId Int      @map("category_id")
+  lastUpdate TimestampString @default(now()) @map("last_update")
+  category   Category @relation(fields: [categoryId], references: [categoryId], onDelete: Restrict, onUpdate: Cascade, map: "film_category_category_id_fkey")
+  film       Film     @relation(fields: [filmId], references: [filmId], onDelete: Restrict, onUpdate: Cascade, map: "film_category_film_id_fkey")
+
+  @@id([filmId, categoryId], map: "film_category_pkey")
+  @@map("film_category")
+}
+
+model Inventory {
+  inventoryId Int      @id(map: "inventory_pkey") @default(autoincrement()) @map("inventory_id")
+  filmId      Int      @map("film_id")
+  storeId     Int      @map("store_id")
+  lastUpdate  TimestampString @default(now()) @map("last_update")
+  rentals     Rental[]
+  film        Film     @relation(fields: [filmId], references: [filmId], onDelete: Restrict, onUpdate: Cascade, map: "inventory_film_id_fkey")
+
+  @@index([storeId, filmId], map: "idx_store_id_film_id")
+  @@map("inventory")
+}
+
+model Staff {
+  staffId      Int       @id(map: "staff_pkey") @default(autoincrement()) @map("staff_id")
+  firstName    String    @map("first_name")
+  lastName     String    @map("last_name")
+  addressId    Int       @map("address_id")
+  email        String?
+  storeId      Int       @map("store_id")
+  active       Boolean   @default(true)
+  username     String
+  password     String?
+  lastUpdate   TimestampString  @default(now()) @map("last_update")
+  picture      Bytes?
+  payments     Payment[]
+  rentals      Rental[]
+  managedStore Store?    @relation("StoreManager")
+  address      Address   @relation(fields: [addressId], references: [addressId], onDelete: Restrict, onUpdate: Cascade, map: "staff_address_id_fkey")
+
+  @@map("staff")
+}
+
+model Rental {
+  rentalId    Int       @id(map: "rental_pkey") @default(autoincrement()) @map("rental_id")
+  rentalDate  TimestampString  @map("rental_date")
+  inventoryId Int       @map("inventory_id")
+  customerId  Int       @map("customer_id")
+  returnDate  TimestampString? @map("return_date")
+  staffId     Int       @map("staff_id")
+  lastUpdate  TimestampString  @default(now()) @map("last_update")
+  payments    Payment[]
+  customer    Customer  @relation(fields: [customerId], references: [customerId], onDelete: Restrict, onUpdate: Cascade, map: "rental_customer_id_fkey")
+  inventory   Inventory @relation(fields: [inventoryId], references: [inventoryId], onDelete: Restrict, onUpdate: Cascade, map: "rental_inventory_id_fkey")
+  staff       Staff     @relation(fields: [staffId], references: [staffId], map: "rental_staff_id_key")
+
+  @@index([inventoryId], map: "idx_fk_inventory_id")
+  @@unique([rentalDate, inventoryId, customerId], map: "idx_unq_rental_rental_date_inventory_id_customer_id")
+  @@map("rental")
+}
+
+model Payment {
+  paymentId   Int      @id(map: "payment_pkey") @default(autoincrement()) @map("payment_id")
+  customerId  Int      @map("customer_id")
+  staffId     Int      @map("staff_id")
+  // Opcional: onDelete SetNull exige que la columna sea nullable (así es en el
+  // dvdrental real: rental_id acepta NULL para conservar el pago si se borra el alquiler).
+  rentalId    Int?     @map("rental_id")
+  amount      Float
+  paymentDate TimestampString @map("payment_date")
+  customer    Customer @relation(fields: [customerId], references: [customerId], onDelete: Restrict, onUpdate: Cascade, map: "payment_customer_id_fkey")
+  rental      Rental?  @relation(fields: [rentalId], references: [rentalId], onDelete: SetNull, onUpdate: Cascade, map: "payment_rental_id_fkey")
+  staff       Staff    @relation(fields: [staffId], references: [staffId], onDelete: Restrict, onUpdate: Cascade, map: "payment_staff_id_fkey")
+
+  @@index([customerId], map: "idx_fk_customer_id")
+  @@index([rentalId], map: "idx_fk_rental_id")
+  @@index([staffId], map: "idx_fk_staff_id")
+  @@map("payment")
+}
+
+model Review {
+  reviewId   Int       @id(map: "review_pkey") @default(autoincrement()) @map("review_id")
+  filmId     Int?      @map("film_id")
+  customerId Int?      @map("customer_id")
+  // El CHECK (rating BETWEEN 1 AND 5) del esquema original no se puede expresar con
+  // @@check en este contrato (no es un atributo soportado en prisma-next PSL).
+  // Valídalo en la capa de aplicación, o si tu base de datos ya tiene el constraint
+  // físico, `contract infer` / `db verify` lo detectará como parte del esquema vivo.
+  rating     Int?
+  reviewText String?   @map("review_text")
+  reviewDate TimestampString? @default(now()) @map("review_date")
+
+  @@map("review")
+}
+
+model Store {
+  storeId        Int      @id(map: "store_pkey") @default(autoincrement()) @map("store_id")
+  managerStaffId Int      @map("manager_staff_id")
+  addressId      Int      @map("address_id")
+  lastUpdate     TimestampString @default(now()) @map("last_update")
+  address        Address  @relation(fields: [addressId], references: [addressId], onDelete: Restrict, onUpdate: Cascade, map: "store_address_id_fkey")
+  managerStaff   Staff    @relation(fields: [managerStaffId], references: [staffId], onDelete: Restrict, onUpdate: Cascade, map: "store_manager_staff_id_fkey", name: "StoreManager")
+
+  @@unique([managerStaffId], map: "idx_unq_manager_staff_id")
+  @@map("store")
+}

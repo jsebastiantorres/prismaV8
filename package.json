@@ -1,0 +1,32 @@
+{
+  "name": "prisma-postgresql",
+  "version": "1.0.0",
+  "description": "Practicando Prisma con Postgresql",
+  "license": "MIT",
+  "author": "Juan Sebastian",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "prisma skills sync || exit 0",
+    "contract:emit": "prisma contract emit"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "@prisma/orm-postgres": "^8.0.0-rc.9",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "temporal-polyfill": "^1.0.5"
+  },
+  "devDependencies": {
+    "@prisma/cli-engine": "^0.2.3",
+    "@types/node": "^22.20.2",
+    "nodemon": "^3.1.14",
+    "prisma": "^8.0.0-rc.10"
+  }
+}

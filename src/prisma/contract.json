@@ -1,0 +1,3155 @@
+{
+  "schemaVersion": "1",
+  "targetFamily": "sql",
+  "target": "postgres",
+  "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
+  "roots": {
+    "actor": {
+      "model": "Actor",
+      "namespace": "public"
+    },
+    "address": {
+      "model": "Address",
+      "namespace": "public"
+    },
+    "category": {
+      "model": "Category",
+      "namespace": "public"
+    },
+    "city": {
+      "model": "City",
+      "namespace": "public"
+    },
+    "country": {
+      "model": "Country",
+      "namespace": "public"
+    },
+    "customer": {
+      "model": "Customer",
+      "namespace": "public"
+    },
+    "film": {
+      "model": "Film",
+      "namespace": "public"
+    },
+    "film_actor": {
+      "model": "FilmActor",
+      "namespace": "public"
+    },
+    "film_category": {
+      "model": "FilmCategory",
+      "namespace": "public"
+    },
+    "inventory": {
+      "model": "Inventory",
+      "namespace": "public"
+    },
+    "language": {
+      "model": "Language",
+      "namespace": "public"
+    },
+    "payment": {
+      "model": "Payment",
+      "namespace": "public"
+    },
+    "rental": {
+      "model": "Rental",
+      "namespace": "public"
+    },
+    "review": {
+      "model": "Review",
+      "namespace": "public"
+    },
+    "staff": {
+      "model": "Staff",
+      "namespace": "public"
+    },
+    "store": {
+      "model": "Store",
+      "namespace": "public"
+    }
+  },
+  "domain": {
+    "namespaces": {
+      "public": {
+        "enum": {
+          "MpaaRating": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "G",
+                "value": "G"
+              },
+              {
+                "name": "PG",
+                "value": "PG"
+              },
+              {
+                "name": "PG_13",
+                "value": "PG-13"
+              },
+              {
+                "name": "R",
+                "value": "R"
+              },
+              {
+                "name": "NC_17",
+                "value": "NC-17"
+              }
+            ]
+          }
+        },
+        "models": {
+          "Actor": {
+            "fields": {
+              "actorId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "firstName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "actorId": {
+                  "column": "actor_id"
+                },
+                "firstName": {
+                  "column": "first_name"
+                },
+                "lastName": {
+                  "column": "last_name"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                }
+              },
+              "namespaceId": "public",
+              "table": "actor"
+            }
+          },
+          "Address": {
+            "fields": {
+              "address": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "address2": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "addressId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "cityId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "district": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "phone": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "postalCode": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "city": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "cityId"
+                  ],
+                  "targetFields": [
+                    "cityId"
+                  ]
+                },
+                "to": {
+                  "model": "City",
+                  "namespace": "public"
+                }
+              },
+              "customers": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Customer",
+                  "namespace": "public"
+                }
+              },
+              "staff": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Staff",
+                  "namespace": "public"
+                }
+              },
+              "stores": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Store",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "address": {
+                  "column": "address"
+                },
+                "address2": {
+                  "column": "address2"
+                },
+                "addressId": {
+                  "column": "address_id"
+                },
+                "cityId": {
+                  "column": "city_id"
+                },
+                "district": {
+                  "column": "district"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "phone": {
+                  "column": "phone"
+                },
+                "postalCode": {
+                  "column": "postal_code"
+                }
+              },
+              "namespaceId": "public",
+              "table": "address"
+            }
+          },
+          "Category": {
+            "fields": {
+              "categoryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "filmCategories": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "categoryId"
+                  ],
+                  "targetFields": [
+                    "categoryId"
+                  ]
+                },
+                "to": {
+                  "model": "FilmCategory",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "categoryId": {
+                  "column": "category_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "category"
+            }
+          },
+          "City": {
+            "fields": {
+              "city": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "cityId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "countryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "addresses": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "cityId"
+                  ],
+                  "targetFields": [
+                    "cityId"
+                  ]
+                },
+                "to": {
+                  "model": "Address",
+                  "namespace": "public"
+                }
+              },
+              "country": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "countryId"
+                  ],
+                  "targetFields": [
+                    "countryId"
+                  ]
+                },
+                "to": {
+                  "model": "Country",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "city": {
+                  "column": "city"
+                },
+                "cityId": {
+                  "column": "city_id"
+                },
+                "countryId": {
+                  "column": "country_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                }
+              },
+              "namespaceId": "public",
+              "table": "city"
+            }
+          },
+          "Country": {
+            "fields": {
+              "country": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "countryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "cities": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "countryId"
+                  ],
+                  "targetFields": [
+                    "countryId"
+                  ]
+                },
+                "to": {
+                  "model": "City",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "country": {
+                  "column": "country"
+                },
+                "countryId": {
+                  "column": "country_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                }
+              },
+              "namespaceId": "public",
+              "table": "country"
+            }
+          },
+          "Customer": {
+            "fields": {
+              "active": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "activebool": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "addressId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "createDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "customerId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "firstName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "storeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "address": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Address",
+                  "namespace": "public"
+                }
+              },
+              "payments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "Payment",
+                  "namespace": "public"
+                }
+              },
+              "rentals": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "Rental",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "active": {
+                  "column": "active"
+                },
+                "activebool": {
+                  "column": "activebool"
+                },
+                "addressId": {
+                  "column": "address_id"
+                },
+                "createDate": {
+                  "column": "create_date"
+                },
+                "customerId": {
+                  "column": "customer_id"
+                },
+                "email": {
+                  "column": "email"
+                },
+                "firstName": {
+                  "column": "first_name"
+                },
+                "lastName": {
+                  "column": "last_name"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "storeId": {
+                  "column": "store_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "customer"
+            }
+          },
+          "Film": {
+            "fields": {
+              "description": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "filmId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "languageId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "length": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "rating": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "MpaaRating",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "releaseYear": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "rentalDuration": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "rentalRate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "replacementCost": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "specialFeatures": {
+                "many": true,
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "filmActors": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "FilmActor",
+                  "namespace": "public"
+                }
+              },
+              "filmCategories": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "FilmCategory",
+                  "namespace": "public"
+                }
+              },
+              "inventories": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "Inventory",
+                  "namespace": "public"
+                }
+              },
+              "language": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "languageId"
+                  ],
+                  "targetFields": [
+                    "languageId"
+                  ]
+                },
+                "to": {
+                  "model": "Language",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "description": {
+                  "column": "description"
+                },
+                "filmId": {
+                  "column": "film_id"
+                },
+                "languageId": {
+                  "column": "language_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "length": {
+                  "column": "length"
+                },
+                "rating": {
+                  "column": "rating"
+                },
+                "releaseYear": {
+                  "column": "release_year"
+                },
+                "rentalDuration": {
+                  "column": "rental_duration"
+                },
+                "rentalRate": {
+                  "column": "rental_rate"
+                },
+                "replacementCost": {
+                  "column": "replacement_cost"
+                },
+                "specialFeatures": {
+                  "column": "special_features"
+                },
+                "title": {
+                  "column": "title"
+                }
+              },
+              "namespaceId": "public",
+              "table": "film"
+            }
+          },
+          "FilmActor": {
+            "fields": {
+              "actorId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "filmId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "actor": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "actorId"
+                  ],
+                  "targetFields": [
+                    "actorId"
+                  ]
+                },
+                "to": {
+                  "model": "Actor",
+                  "namespace": "public"
+                }
+              },
+              "film": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "Film",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "actorId": {
+                  "column": "actor_id"
+                },
+                "filmId": {
+                  "column": "film_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                }
+              },
+              "namespaceId": "public",
+              "table": "film_actor"
+            }
+          },
+          "FilmCategory": {
+            "fields": {
+              "categoryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "filmId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "category": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "categoryId"
+                  ],
+                  "targetFields": [
+                    "categoryId"
+                  ]
+                },
+                "to": {
+                  "model": "Category",
+                  "namespace": "public"
+                }
+              },
+              "film": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "Film",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "categoryId": {
+                  "column": "category_id"
+                },
+                "filmId": {
+                  "column": "film_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                }
+              },
+              "namespaceId": "public",
+              "table": "film_category"
+            }
+          },
+          "Inventory": {
+            "fields": {
+              "filmId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "inventoryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "storeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "film": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "filmId"
+                  ],
+                  "targetFields": [
+                    "filmId"
+                  ]
+                },
+                "to": {
+                  "model": "Film",
+                  "namespace": "public"
+                }
+              },
+              "rentals": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "inventoryId"
+                  ],
+                  "targetFields": [
+                    "inventoryId"
+                  ]
+                },
+                "to": {
+                  "model": "Rental",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "filmId": {
+                  "column": "film_id"
+                },
+                "inventoryId": {
+                  "column": "inventory_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "storeId": {
+                  "column": "store_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "inventory"
+            }
+          },
+          "Language": {
+            "fields": {
+              "languageId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "films": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "languageId"
+                  ],
+                  "targetFields": [
+                    "languageId"
+                  ]
+                },
+                "to": {
+                  "model": "Film",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "languageId": {
+                  "column": "language_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "language"
+            }
+          },
+          "Payment": {
+            "fields": {
+              "amount": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "customerId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "paymentDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "paymentId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "rentalId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "staffId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "customer": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "Customer",
+                  "namespace": "public"
+                }
+              },
+              "rental": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "rentalId"
+                  ],
+                  "targetFields": [
+                    "rentalId"
+                  ]
+                },
+                "to": {
+                  "model": "Rental",
+                  "namespace": "public"
+                }
+              },
+              "staff": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "staffId"
+                  ]
+                },
+                "to": {
+                  "model": "Staff",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "amount": {
+                  "column": "amount"
+                },
+                "customerId": {
+                  "column": "customer_id"
+                },
+                "paymentDate": {
+                  "column": "payment_date"
+                },
+                "paymentId": {
+                  "column": "payment_id"
+                },
+                "rentalId": {
+                  "column": "rental_id"
+                },
+                "staffId": {
+                  "column": "staff_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "payment"
+            }
+          },
+          "Rental": {
+            "fields": {
+              "customerId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "inventoryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "rentalDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "rentalId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "returnDate": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "staffId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "customer": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "customerId"
+                  ]
+                },
+                "to": {
+                  "model": "Customer",
+                  "namespace": "public"
+                }
+              },
+              "inventory": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "inventoryId"
+                  ],
+                  "targetFields": [
+                    "inventoryId"
+                  ]
+                },
+                "to": {
+                  "model": "Inventory",
+                  "namespace": "public"
+                }
+              },
+              "payments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "rentalId"
+                  ],
+                  "targetFields": [
+                    "rentalId"
+                  ]
+                },
+                "to": {
+                  "model": "Payment",
+                  "namespace": "public"
+                }
+              },
+              "staff": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "staffId"
+                  ]
+                },
+                "to": {
+                  "model": "Staff",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "customerId": {
+                  "column": "customer_id"
+                },
+                "inventoryId": {
+                  "column": "inventory_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "rentalDate": {
+                  "column": "rental_date"
+                },
+                "rentalId": {
+                  "column": "rental_id"
+                },
+                "returnDate": {
+                  "column": "return_date"
+                },
+                "staffId": {
+                  "column": "staff_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "rental"
+            }
+          },
+          "Review": {
+            "fields": {
+              "customerId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "filmId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "rating": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "reviewDate": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "reviewId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "reviewText": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "customerId": {
+                  "column": "customer_id"
+                },
+                "filmId": {
+                  "column": "film_id"
+                },
+                "rating": {
+                  "column": "rating"
+                },
+                "reviewDate": {
+                  "column": "review_date"
+                },
+                "reviewId": {
+                  "column": "review_id"
+                },
+                "reviewText": {
+                  "column": "review_text"
+                }
+              },
+              "namespaceId": "public",
+              "table": "review"
+            }
+          },
+          "Staff": {
+            "fields": {
+              "active": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "addressId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "firstName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "password": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "picture": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/bytea@1",
+                  "kind": "scalar"
+                }
+              },
+              "staffId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "storeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "address": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Address",
+                  "namespace": "public"
+                }
+              },
+              "managedStore": {
+                "cardinality": "1:1",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "managerStaffId"
+                  ]
+                },
+                "to": {
+                  "model": "Store",
+                  "namespace": "public"
+                }
+              },
+              "payments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "staffId"
+                  ]
+                },
+                "to": {
+                  "model": "Payment",
+                  "namespace": "public"
+                }
+              },
+              "rentals": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "staffId"
+                  ]
+                },
+                "to": {
+                  "model": "Rental",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "active": {
+                  "column": "active"
+                },
+                "addressId": {
+                  "column": "address_id"
+                },
+                "email": {
+                  "column": "email"
+                },
+                "firstName": {
+                  "column": "first_name"
+                },
+                "lastName": {
+                  "column": "last_name"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "password": {
+                  "column": "password"
+                },
+                "picture": {
+                  "column": "picture"
+                },
+                "staffId": {
+                  "column": "staff_id"
+                },
+                "storeId": {
+                  "column": "store_id"
+                },
+                "username": {
+                  "column": "username"
+                }
+              },
+              "namespaceId": "public",
+              "table": "staff"
+            }
+          },
+          "Store": {
+            "fields": {
+              "addressId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastUpdate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "managerStaffId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "storeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "address": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "addressId"
+                  ],
+                  "targetFields": [
+                    "addressId"
+                  ]
+                },
+                "to": {
+                  "model": "Address",
+                  "namespace": "public"
+                }
+              },
+              "managerStaff": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "managerStaffId"
+                  ],
+                  "targetFields": [
+                    "staffId"
+                  ]
+                },
+                "to": {
+                  "model": "Staff",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "addressId": {
+                  "column": "address_id"
+                },
+                "lastUpdate": {
+                  "column": "last_update"
+                },
+                "managerStaffId": {
+                  "column": "manager_staff_id"
+                },
+                "storeId": {
+                  "column": "store_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "store"
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "namespaces": {
+      "public": {
+        "entries": {
+          "table": {
+            "actor": {
+              "columns": {
+                "actor_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "first_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "last_name"
+                  ],
+                  "name": "idx_actor_last_name",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "actor_id"
+                ],
+                "name": "actor_pkey"
+              },
+              "uniques": []
+            },
+            "address": {
+              "columns": {
+                "address": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "address2": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "address_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "city_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "district": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "postal_code": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "fk_address_city",
+                  "source": {
+                    "columns": [
+                      "city_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "address"
+                  },
+                  "target": {
+                    "columns": [
+                      "city_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "city"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "city_id"
+                  ],
+                  "name": "idx_fk_city_id",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "address_id"
+                ],
+                "name": "address_pkey"
+              },
+              "uniques": []
+            },
+            "category": {
+              "columns": {
+                "category_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "category_id"
+                ],
+                "name": "category_pkey"
+              },
+              "uniques": []
+            },
+            "city": {
+              "columns": {
+                "city": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "city_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "country_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "fk_city",
+                  "source": {
+                    "columns": [
+                      "country_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "city"
+                  },
+                  "target": {
+                    "columns": [
+                      "country_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "country"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "country_id"
+                  ],
+                  "name": "idx_fk_country_id",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "city_id"
+                ],
+                "name": "city_pkey"
+              },
+              "uniques": []
+            },
+            "country": {
+              "columns": {
+                "country": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "country_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "country_id"
+                ],
+                "name": "country_pkey"
+              },
+              "uniques": []
+            },
+            "customer": {
+              "columns": {
+                "active": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "activebool": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "address_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "create_date": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "customer_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "first_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": true
+                },
+                "store_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "customer_address_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "customer"
+                  },
+                  "target": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "address"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "address_id"
+                  ],
+                  "name": "idx_fk_address_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "store_id"
+                  ],
+                  "name": "idx_fk_store_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "last_name"
+                  ],
+                  "name": "idx_last_name",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "customer_id"
+                ],
+                "name": "customer_pkey"
+              },
+              "uniques": []
+            },
+            "film": {
+              "checks": [
+                {
+                  "expression": "\"rating\" IN ('G', 'PG', 'PG-13', 'R', 'NC-17')",
+                  "name": "film_rating_check_4d490910",
+                  "prefix": "film_rating_check"
+                },
+                {
+                  "expression": "array_position(\"special_features\", NULL) IS NULL",
+                  "name": "film_special_features_elem_not_null_f826c538",
+                  "prefix": "film_special_features_elem_not_null"
+                }
+              ],
+              "columns": {
+                "description": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "film_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "language_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "length": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "rating": {
+                  "codecId": "pg/text@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": "G"
+                  },
+                  "nativeType": "text",
+                  "nullable": true,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "MpaaRating",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "release_year": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "rental_duration": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": 3
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "rental_rate": {
+                  "codecId": "pg/float8@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": 4.99
+                  },
+                  "nativeType": "float8",
+                  "nullable": false
+                },
+                "replacement_cost": {
+                  "codecId": "pg/float8@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": 19.99
+                  },
+                  "nativeType": "float8",
+                  "nullable": false
+                },
+                "special_features": {
+                  "codecId": "pg/text@1",
+                  "many": true,
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "film_language_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "language_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film"
+                  },
+                  "target": {
+                    "columns": [
+                      "language_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "language"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "language_id"
+                  ],
+                  "name": "idx_fk_language_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "title"
+                  ],
+                  "name": "idx_title",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "film_id"
+                ],
+                "name": "film_pkey"
+              },
+              "uniques": []
+            },
+            "film_actor": {
+              "columns": {
+                "actor_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "film_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "film_actor_actor_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "actor_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film_actor"
+                  },
+                  "target": {
+                    "columns": [
+                      "actor_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "actor"
+                  }
+                },
+                {
+                  "name": "film_actor_film_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film_actor"
+                  },
+                  "target": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "actor_id"
+                  ],
+                  "name": "film_actor_actor_id_idx_69a2164d",
+                  "prefix": "film_actor_actor_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "film_id"
+                  ],
+                  "name": "idx_fk_film_id",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "actor_id",
+                  "film_id"
+                ],
+                "name": "film_actor_pkey"
+              },
+              "uniques": []
+            },
+            "film_category": {
+              "columns": {
+                "category_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "film_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "film_category_category_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "category_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film_category"
+                  },
+                  "target": {
+                    "columns": [
+                      "category_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "category"
+                  }
+                },
+                {
+                  "name": "film_category_film_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film_category"
+                  },
+                  "target": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "category_id"
+                  ],
+                  "name": "film_category_category_id_idx_da7213d4",
+                  "prefix": "film_category_category_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "film_id"
+                  ],
+                  "name": "film_category_film_id_idx_9d2ea86f",
+                  "prefix": "film_category_film_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "film_id",
+                  "category_id"
+                ],
+                "name": "film_category_pkey"
+              },
+              "uniques": []
+            },
+            "inventory": {
+              "columns": {
+                "film_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "inventory_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "store_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "inventory_film_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "inventory"
+                  },
+                  "target": {
+                    "columns": [
+                      "film_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "film"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "store_id",
+                    "film_id"
+                  ],
+                  "name": "idx_store_id_film_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "film_id"
+                  ],
+                  "name": "inventory_film_id_idx_9d2ea86f",
+                  "prefix": "inventory_film_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "inventory_id"
+                ],
+                "name": "inventory_pkey"
+              },
+              "uniques": []
+            },
+            "language": {
+              "columns": {
+                "language_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "language_id"
+                ],
+                "name": "language_pkey"
+              },
+              "uniques": []
+            },
+            "payment": {
+              "columns": {
+                "amount": {
+                  "codecId": "pg/float8@1",
+                  "nativeType": "float8",
+                  "nullable": false
+                },
+                "customer_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "payment_date": {
+                  "codecId": "pg/timestamp-string@1",
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "payment_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "rental_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "staff_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "payment_customer_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "customer_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "payment"
+                  },
+                  "target": {
+                    "columns": [
+                      "customer_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "customer"
+                  }
+                },
+                {
+                  "name": "payment_rental_id_fkey",
+                  "onDelete": "setNull",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "rental_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "payment"
+                  },
+                  "target": {
+                    "columns": [
+                      "rental_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "rental"
+                  }
+                },
+                {
+                  "name": "payment_staff_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "payment"
+                  },
+                  "target": {
+                    "columns": [
+                      "staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "staff"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "customer_id"
+                  ],
+                  "name": "idx_fk_customer_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "rental_id"
+                  ],
+                  "name": "idx_fk_rental_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "staff_id"
+                  ],
+                  "name": "idx_fk_staff_id",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "payment_id"
+                ],
+                "name": "payment_pkey"
+              },
+              "uniques": []
+            },
+            "rental": {
+              "columns": {
+                "customer_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "inventory_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "rental_date": {
+                  "codecId": "pg/timestamp-string@1",
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "rental_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "return_date": {
+                  "codecId": "pg/timestamp-string@1",
+                  "nativeType": "timestamp",
+                  "nullable": true
+                },
+                "staff_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "rental_customer_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "customer_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "rental"
+                  },
+                  "target": {
+                    "columns": [
+                      "customer_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "customer"
+                  }
+                },
+                {
+                  "name": "rental_inventory_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "inventory_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "rental"
+                  },
+                  "target": {
+                    "columns": [
+                      "inventory_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "inventory"
+                  }
+                },
+                {
+                  "name": "rental_staff_id_key",
+                  "source": {
+                    "columns": [
+                      "staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "rental"
+                  },
+                  "target": {
+                    "columns": [
+                      "staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "staff"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "inventory_id"
+                  ],
+                  "name": "idx_fk_inventory_id",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "customer_id"
+                  ],
+                  "name": "rental_customer_id_idx_e16dfa6b",
+                  "prefix": "rental_customer_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "staff_id"
+                  ],
+                  "name": "rental_staff_id_idx_416d53f4",
+                  "prefix": "rental_staff_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "rental_id"
+                ],
+                "name": "rental_pkey"
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "rental_date",
+                    "inventory_id",
+                    "customer_id"
+                  ],
+                  "name": "idx_unq_rental_rental_date_inventory_id_customer_id"
+                }
+              ]
+            },
+            "review": {
+              "columns": {
+                "customer_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "film_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "rating": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "review_date": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": true
+                },
+                "review_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "review_text": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "review_id"
+                ],
+                "name": "review_pkey"
+              },
+              "uniques": []
+            },
+            "staff": {
+              "columns": {
+                "active": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "address_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "first_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "password": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "picture": {
+                  "codecId": "pg/bytea@1",
+                  "nativeType": "bytea",
+                  "nullable": true
+                },
+                "staff_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "store_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "staff_address_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "staff"
+                  },
+                  "target": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "address"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "address_id"
+                  ],
+                  "name": "staff_address_id_idx_f563b795",
+                  "prefix": "staff_address_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "staff_id"
+                ],
+                "name": "staff_pkey"
+              },
+              "uniques": []
+            },
+            "store": {
+              "columns": {
+                "address_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "last_update": {
+                  "codecId": "pg/timestamp-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": false
+                },
+                "manager_staff_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "store_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "store_address_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "store"
+                  },
+                  "target": {
+                    "columns": [
+                      "address_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "address"
+                  }
+                },
+                {
+                  "name": "store_manager_staff_id_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "manager_staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "store"
+                  },
+                  "target": {
+                    "columns": [
+                      "staff_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "staff"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "address_id"
+                  ],
+                  "name": "store_address_id_idx_f563b795",
+                  "prefix": "store_address_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "store_id"
+                ],
+                "name": "store_pkey"
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "manager_staff_id"
+                  ],
+                  "name": "idx_unq_manager_staff_id"
+                }
+              ]
+            }
+          },
+          "valueSet": {
+            "MpaaRating": {
+              "kind": "valueSet",
+              "values": [
+                "G",
+                "PG",
+                "PG-13",
+                "R",
+                "NC-17"
+              ]
+            }
+          }
+        },
+        "id": "public",
+        "kind": "postgres-schema"
+      }
+    },
+    "storageHash": "de02ae57818174e55c5ed0054a25cdb9cfcfda66220de76418678a2c0306e06a"
+  },
+  "capabilities": {
+    "postgres": {
+      "distinctOn": true,
+      "jsonAgg": true,
+      "lateral": true,
+      "limit": true,
+      "orderBy": true,
+      "returning": true
+    },
+    "sql": {
+      "checkConstraint": true,
+      "defaultInInsert": true,
+      "enums": true,
+      "lateral": true,
+      "returning": true,
+      "scalarList": true
+    }
+  },
+  "extensions": {},
+  "meta": {},
+  "_generated": {
+    "warning": "⚠️  GENERATED FILE - DO NOT EDIT",
+    "message": "This file is automatically generated by \"prisma contract emit\".",
+    "regenerate": "To regenerate, run: prisma contract emit"
+  }
+}
