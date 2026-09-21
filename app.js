@@ -1,12 +1,10 @@
 console.log("¡Proyecto de Node.js iniciado con éxito!");
 
-
 // Importacion de ruta de actores
 import actorRoutes from "./src/routes/actorRoutes.js";
 
 // Importacion de ruta de clientes
-import clienteReportesRoutes from "./src/routes/reportesCliente.js"
-
+import clienteReportesRoutes from "./src/routes/reportesCliente.js";
 
 // Configuracion de express
 import express from "express";
@@ -24,7 +22,7 @@ import { db } from "./src/prisma/db.ts";
 // RUTA DE ACTORES
 app.use("/actores", actorRoutes);
 
-// RUTA REPORTE CLIENTE
+// RUTA REPORTES CLIENTE
 app.use("/reportesCliente", clienteReportesRoutes);
 
 // ejecución vista para films
