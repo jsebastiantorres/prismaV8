@@ -4,7 +4,10 @@ console.log("¡Proyecto de Node.js iniciado con éxito!");
 import actorRoutes from "./src/routes/actorRoutes.js";
 
 // Importacion de ruta de clientes
-import clienteReportesRoutes from "./src/routes/reportesCliente.js";
+import clienteReportesRoutes from "./src/routes/reportesClienteRoutes.js";
+
+// Importacion de ruta para films
+import vistasfilmsRoutes from "./src/routes/vistasFilmsRoutes.js";
 
 // Configuracion de express
 import express from "express";
@@ -25,34 +28,9 @@ app.use("/actores", actorRoutes);
 // RUTA REPORTES CLIENTE
 app.use("/reportesCliente", clienteReportesRoutes);
 
-// ejecución vista para films
-app.get("/films/", async (req, res) => {
-  try {
-    // 1 instancia del runtime
-    const runtime = db.runtime();
+// RUTA DE FILMS
+app.use("/vistasFilms", vistasfilmsRoutes);
 
-    // 2 construir la consulta
-    const films = db.raw.sql`SELECT * FROM film_list ORDER BY fid ASC`
-      .returnsRow({
-        fid: "pg/text@1",
-        title: "pg/text@1",
-        description: "pg/text@1",
-        category: "pg/text@1",
-        price: "pg/text@1",
-        length: "pg/text@1",
-        rating: "pg/text@1",
-        actors: "pg/text@1",
-      })
-      .build();
-
-    // 3 ejecutar la consulta
-    const resultado = await runtime.query(films);
-    console.log(resultado);
-    res.status(200).json(resultado);
-  } catch (error) {
-    res.status(404).json({ err: error.message });
-  }
-});
 
 // crud categoria
 

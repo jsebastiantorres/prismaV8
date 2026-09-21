@@ -8,7 +8,7 @@ import {
   crearActor,
   actualizarActor,
   eliminarActor,
-} from "../controllers/actoreController.js";
+} from "../controllers/actorController.js";
 
 // utilizar Router()
 const router = express.Router();
