@@ -17,3 +17,15 @@ export const crearCategoria = async (req, res) => {
     res.status(404).json({ err: error.message });
   }
 };
+
+// LEET todas las categorias
+export const leerCategorias = async (req, res) => {
+  try {
+    const obtenerCategorias = await db.orm.public.Category.all();
+    console.log("Se obtuvieron todas las categorias");
+
+    res.status(200).json(obtenerCategorias);
+  } catch (error) {
+    res.status(404).json({ err: error.message });
+  }
+};

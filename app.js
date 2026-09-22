@@ -37,35 +37,6 @@ app.use("/vistasFilms", vistasfilmsRoutes);
 // RUTA DE CATEGORIAS
 app.use("/categoria", categoriaRoutes);
 
-// // create categoria
-// app.post("/categoria/crear", async (req, res) => {
-//   try {
-//     const { name } = req.body;
-//     console.log(name);
-
-//     const categoriaNueva = await db.orm.public.Category.create({
-//       name: name,
-//     });
-
-//     console.log("Se ha creado la categoria");
-//     res.status(200).json(categoriaNueva);
-//   } catch (error) {
-//     res.status(400).json({ err: error.message });
-//   }
-// });
-
-// LEER categorias
-app.get("/categoria/leertodos", async (req, res) => {
-  try {
-    // const todasCategorias = await db.orm.public.Category.all();
-    const todasCategorias = await db.orm.public.Category.all();
-
-    console.log(todasCategorias);
-    res.status(200).json(todasCategorias);
-  } catch (error) {
-    res.status(400).json({ err: error.message });
-  }
-});
 
 // LEER categoria por ID
 
