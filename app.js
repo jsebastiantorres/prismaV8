@@ -9,6 +9,9 @@ import clienteReportesRoutes from "./src/routes/reportesClienteRoutes.js";
 // Importacion de ruta para films
 import vistasfilmsRoutes from "./src/routes/vistasFilmsRoutes.js";
 
+// Importacion de ruta para categorias
+import categoriaRoutes from "./src/routes/categoriaRoutes.js";
+
 // Configuracion de express
 import express from "express";
 const app = express();
@@ -31,25 +34,25 @@ app.use("/reportesCliente", clienteReportesRoutes);
 // RUTA DE FILMS
 app.use("/vistasFilms", vistasfilmsRoutes);
 
+// RUTA DE CATEGORIAS
+app.use("/categoria", categoriaRoutes);
 
-// crud categoria
+// // create categoria
+// app.post("/categoria/crear", async (req, res) => {
+//   try {
+//     const { name } = req.body;
+//     console.log(name);
 
-// create categoria
-app.post("/categoria/crear", async (req, res) => {
-  try {
-    const { name } = req.body;
-    console.log(name);
+//     const categoriaNueva = await db.orm.public.Category.create({
+//       name: name,
+//     });
 
-    const categoriaNueva = await db.orm.public.Category.create({
-      name: name,
-    });
-
-    console.log("Se ha creado la categoria");
-    res.status(200).json(categoriaNueva);
-  } catch (error) {
-    res.status(400).json({ err: error.message });
-  }
-});
+//     console.log("Se ha creado la categoria");
+//     res.status(200).json(categoriaNueva);
+//   } catch (error) {
+//     res.status(400).json({ err: error.message });
+//   }
+// });
 
 // LEER categorias
 app.get("/categoria/leertodos", async (req, res) => {
