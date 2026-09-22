@@ -37,46 +37,28 @@ app.use("/vistasFilms", vistasfilmsRoutes);
 // RUTA DE CATEGORIAS
 app.use("/categoria", categoriaRoutes);
 
-
-// LEER categoria por ID
-
-app.get("/categoria/:id", async (req, res) => {
-  try {
-    const idCategoria = Number(req.params.id);
-
-    const categoriaBuscada = await db.orm.public.Category.where({
-      categoryId: idCategoria,
-    }).first();
-
-    console.log(categoriaBuscada);
-    res.status(200).json(categoriaBuscada);
-  } catch (error) {
-    res.status(400).json({ err: error.message });
-  }
-});
-
 // UPDATE categoria
-app.patch("/categoria/update/:id", async (req, res) => {
-  try {
-    const idCategoria = Number(req.params.id);
-    const { name } = req.body;
+// app.patch("/categoria/update/:id", async (req, res) => {
+//   try {
+//     const idCategoria = Number(req.params.id);
+//     const { name } = req.body;
 
-    const categoriaEditar = await db.orm.public.Category.where({
-      categoryId: idCategoria,
-    }).update({ name: name });
+//     const categoriaEditar = await db.orm.public.Category.where({
+//       categoryId: idCategoria,
+//     }).update({ name: name });
 
-    const categoriaNueva = await db.orm.public.Category.where({
-      categoryId: idCategoria,
-    }).first();
+//     const categoriaNueva = await db.orm.public.Category.where({
+//       categoryId: idCategoria,
+//     }).first();
 
-    console.log(
-      `datos anteriores: ${categoriaEditar.name}, datos nuevos: ${categoriaNueva.name}`,
-    );
-    res.status(200).json(categoriaNueva);
-  } catch (error) {
-    res.status(400).json({ err: error.message });
-  }
-});
+//     console.log(
+//       `datos anteriores: ${categoriaEditar.name}, datos nuevos: ${categoriaNueva.name}`,
+//     );
+//     res.status(200).json(categoriaNueva);
+//   } catch (error) {
+//     res.status(400).json({ err: error.message });
+//   }
+// });
 
 // DELETE categoria
 app.delete("/categoria/delete/:id", async (req, res) => {

@@ -18,13 +18,46 @@ export const crearCategoria = async (req, res) => {
   }
 };
 
-// LEET todas las categorias
+// LEER todas las categorias
 export const leerCategorias = async (req, res) => {
   try {
     const obtenerCategorias = await db.orm.public.Category.all();
     console.log("Se obtuvieron todas las categorias");
 
     res.status(200).json(obtenerCategorias);
+  } catch (error) {
+    res.status(404).json({ err: error.message });
+  }
+};
+
+// OBTENER categoria por ID
+export const obtenerCategoriaId = async (req, res) => {
+  try {
+    const idCategoria = Number(req.params.id);
+    const obtenerCategoria = await db.orm.public.Category.where({
+      categoryId: idCategoria,
+    }).first();
+    console.log("Se ha encontrado la categoria buscada");
+    res.status(200).json(obtenerCategoria);
+  } catch (error) {
+    res.status(404).json({ err: error.message });
+  }
+};
+
+// ACTUALIZAR categoria
+export const actualizarCategoria = async (req, res) => {
+  try {
+    const idCategoria = Number(req.params.id);
+    console.log(idCategoria);
+    
+    const { name } = req.body;
+    const actualizarCat = await db.orm.public.Category.where({
+      categoryId: idCategoria,
+    }).update({ name: name });
+    console.log("Categoria actualizada");
+    res
+      .status(200)
+      .json({ message: "Categoria Actualizada", categoria: actualizarCat });
   } catch (error) {
     res.status(404).json({ err: error.message });
   }

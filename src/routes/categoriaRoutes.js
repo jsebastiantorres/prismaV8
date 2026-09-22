@@ -2,7 +2,12 @@
 import express from "express";
 
 // importamos los controladores CRUD
-import { crearCategoria, leerCategorias } from "../controllers/categoriaController.js";
+import {
+  crearCategoria,
+  leerCategorias,
+  obtenerCategoriaId,
+  actualizarCategoria,
+} from "../controllers/categoriaController.js";
 
 // utilizamos router
 const router = express.Router();
@@ -10,8 +15,13 @@ const router = express.Router();
 // CREAR categoria
 router.post("/crearCategoria/", crearCategoria);
 
-
 // LEER todos
-router.get("/leerTodas", leerCategorias)
+router.get("/leerTodas", leerCategorias);
+
+// LEER categoria por ID
+router.get("/:id", obtenerCategoriaId);
+
+// ACTUALIZAR categoria
+router.patch("/update/:id", actualizarCategoria);
 
 export default router;
