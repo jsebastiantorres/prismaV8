@@ -48,8 +48,6 @@ export const obtenerCategoriaId = async (req, res) => {
 export const actualizarCategoria = async (req, res) => {
   try {
     const idCategoria = Number(req.params.id);
-    console.log(idCategoria);
-    
     const { name } = req.body;
     const actualizarCat = await db.orm.public.Category.where({
       categoryId: idCategoria,
@@ -58,6 +56,20 @@ export const actualizarCategoria = async (req, res) => {
     res
       .status(200)
       .json({ message: "Categoria Actualizada", categoria: actualizarCat });
+  } catch (error) {
+    res.status(404).json({ err: error.message });
+  }
+};
+
+// ELIMINAR categoria
+export const eliminarCategoria = async (req, res) => {
+  try {
+    const idCategoria = Number(req.params.id);
+    const eliminarCat = await db.orm.public.Category.where({
+      categoryId: idCategoria,
+    }).delete();
+    console.log("Se ha eliminado la categoria");
+    res.status(200).json({ message: "Categoria eliminada" });
   } catch (error) {
     res.status(404).json({ err: error.message });
   }
