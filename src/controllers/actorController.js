@@ -1,6 +1,9 @@
 // se importa o se instancia el modelo general de prisma
 import { db } from "../prisma/db.ts";
 
+// importamos servicios
+import { readActor } from "../repository/actorRepository.js";
+
 // Obtener TODOS (all) los actores
 export const obtenerActoresAll = async (req, res) => {
   try {
@@ -17,9 +20,7 @@ export const obtenerActorId = async (req, res) => {
   try {
     const idActor = Number(req.params.id);
 
-    const actorBuscado = await db.orm.public.Actor.where({
-      actorId: idActor,
-    }).first();
+    const actorBuscado = await readActor(idActor);
 
     console.log(actorBuscado);
     res.status(200).json(actorBuscado);
@@ -68,7 +69,6 @@ export const actualizarActor = async (req, res) => {
   }
 };
 
-
 // ELIMINAR ACTOR
 export const eliminarActor = async (req, res) => {
   try {
@@ -83,7 +83,7 @@ export const eliminarActor = async (req, res) => {
       .json({ message: "Se ha eliminado el actor", actor: eliminarActor });
   } catch (error) {
     console.log("Error en controlador");
-    
-    res.status(500).json({ error: error.message});
+
+    res.status(500).json({ error: error.message });
   }
 };

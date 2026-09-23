@@ -246,3 +246,18 @@ model Store {
   @@unique([managerStaffId], map: "idx_unq_manager_staff_id")
   @@map("store")
 }
+
+// Vista
+model FilmList {
+  fid         Int          @id
+  title       VarChar(255)
+  description String?
+  category    VarChar(25)?
+  price       Numeric(4, 2)?
+  length      SmallInt?
+  rating      MpaaRating?
+  actors      String?
+
+  @@map("film_list")
+  @@control(external)
+}

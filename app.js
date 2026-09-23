@@ -37,26 +37,7 @@ app.use("/vistasFilms", vistasfilmsRoutes);
 // RUTA DE CATEGORIAS
 app.use("/categoria", categoriaRoutes);
 
-// // DELETE categoria
-// app.delete("/categoria/delete/:id", async (req, res) => {
-//   try {
-//     const idCategoria = Number(req.params.id);
 
-//     const categoriaEliminar = await db.orm.public.Category.where({
-//       categoryId: idCategoria,
-//     }).delete();
-
-//     if (!categoriaEliminar) {
-//       console.log("No se encontro la categoria");
-//       res.status(200).json({ err: "No se encontro la categoria" });
-//     }
-
-//     console.log("se elimino la categoria");
-//     res.status(200).json(categoriaEliminar);
-//   } catch (error) {
-//     res.status(400).json({ err: error.message });
-//   }
-// });
 
 // FILMS Filtro por categoria
 app.get("/film/:categoria", async (req, res) => {

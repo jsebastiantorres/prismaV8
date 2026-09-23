@@ -33,7 +33,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'de02ae57818174e55c5ed0054a25cdb9cfcfda66220de76418678a2c0306e06a'>;
+  StorageHashBase<'236c8e60c892d42e8fb942b88b052547e755e1a591c84073e27cdabe85c21d07'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -308,6 +308,16 @@ export type FieldOutputTypes = {
       readonly categoryId: CodecTypes['pg/int4@1']['output'];
       readonly lastUpdate: CodecTypes['pg/timestamp-string@1']['output'];
     };
+    readonly FilmList: {
+      readonly fid: CodecTypes['pg/int4@1']['output'];
+      readonly title: Varchar<255>;
+      readonly description: CodecTypes['pg/text@1']['output'] | null;
+      readonly category: Varchar<25> | null;
+      readonly price: Numeric<4, 2> | null;
+      readonly length: CodecTypes['pg/int2@1']['output'] | null;
+      readonly rating: 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17' | null;
+      readonly actors: CodecTypes['pg/text@1']['output'] | null;
+    };
     readonly Inventory: {
       readonly inventoryId: CodecTypes['pg/int4@1']['output'];
       readonly filmId: CodecTypes['pg/int4@1']['output'];
@@ -434,6 +444,16 @@ export type FieldInputTypes = {
       readonly filmId: CodecTypes['pg/int4@1']['input'];
       readonly categoryId: CodecTypes['pg/int4@1']['input'];
       readonly lastUpdate: CodecTypes['pg/timestamp-string@1']['input'];
+    };
+    readonly FilmList: {
+      readonly fid: CodecTypes['pg/int4@1']['input'];
+      readonly title: CodecTypes['sql/varchar@1']['input'];
+      readonly description: CodecTypes['pg/text@1']['input'] | null;
+      readonly category: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly price: CodecTypes['pg/numeric@1']['input'] | null;
+      readonly length: CodecTypes['pg/int2@1']['input'] | null;
+      readonly rating: 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17' | null;
+      readonly actors: CodecTypes['pg/text@1']['input'] | null;
     };
     readonly Inventory: {
       readonly inventoryId: CodecTypes['pg/int4@1']['input'];
@@ -562,6 +582,16 @@ export type StorageColumnTypes = {
       readonly film_id: CodecTypes['pg/int4@1']['output'];
       readonly last_update: CodecTypes['pg/timestamp-string@1']['output'];
     };
+    readonly film_list: {
+      readonly actors: CodecTypes['pg/text@1']['output'] | null;
+      readonly category: Varchar<25> | null;
+      readonly description: CodecTypes['pg/text@1']['output'] | null;
+      readonly fid: CodecTypes['pg/int4@1']['output'];
+      readonly length: CodecTypes['pg/int2@1']['output'] | null;
+      readonly price: Numeric<4, 2> | null;
+      readonly rating: 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17' | null;
+      readonly title: Varchar<255>;
+    };
     readonly inventory: {
       readonly film_id: CodecTypes['pg/int4@1']['output'];
       readonly inventory_id: CodecTypes['pg/int4@1']['output'];
@@ -688,6 +718,16 @@ export type StorageColumnInputTypes = {
       readonly category_id: CodecTypes['pg/int4@1']['input'];
       readonly film_id: CodecTypes['pg/int4@1']['input'];
       readonly last_update: CodecTypes['pg/timestamp-string@1']['input'];
+    };
+    readonly film_list: {
+      readonly actors: CodecTypes['pg/text@1']['input'] | null;
+      readonly category: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly description: CodecTypes['pg/text@1']['input'] | null;
+      readonly fid: CodecTypes['pg/int4@1']['input'];
+      readonly length: CodecTypes['pg/int2@1']['input'] | null;
+      readonly price: CodecTypes['pg/numeric@1']['input'] | null;
+      readonly rating: 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17' | null;
+      readonly title: CodecTypes['sql/varchar@1']['input'];
     };
     readonly inventory: {
       readonly film_id: CodecTypes['pg/int4@1']['input'];
@@ -1342,6 +1382,57 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly film_list: {
+              columns: {
+                readonly fid: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly title: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly description: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly category: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly length: 25 };
+                };
+                readonly price: {
+                  readonly nativeType: 'numeric';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 4; readonly scale: 2 };
+                };
+                readonly length: {
+                  readonly nativeType: 'int2';
+                  readonly codecId: 'pg/int2@1';
+                  readonly nullable: true;
+                };
+                readonly rating: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly actors: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['fid'] };
+              uniques: readonly [];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
             readonly inventory: {
               columns: {
                 readonly inventory_id: {
@@ -1900,6 +1991,7 @@ type ContractBase = Omit<
     readonly payment: { readonly namespace: 'public' & NamespaceId; readonly model: 'Payment' };
     readonly review: { readonly namespace: 'public' & NamespaceId; readonly model: 'Review' };
     readonly store: { readonly namespace: 'public' & NamespaceId; readonly model: 'Store' };
+    readonly film_list: { readonly namespace: 'public' & NamespaceId; readonly model: 'FilmList' };
   };
   readonly domain: {
     readonly namespaces: {
@@ -2487,6 +2579,69 @@ type ContractBase = Omit<
                 readonly filmId: { readonly column: 'film_id' };
                 readonly categoryId: { readonly column: 'category_id' };
                 readonly lastUpdate: { readonly column: 'last_update' };
+              };
+            };
+          };
+          readonly FilmList: {
+            readonly fields: {
+              readonly fid: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly title: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly description: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly category: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 25 };
+                };
+              };
+              readonly price: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly typeParams: { readonly precision: 4; readonly scale: 2 };
+                };
+              };
+              readonly length: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int2@1' };
+              };
+              readonly rating: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly actors: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'film_list';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly fid: { readonly column: 'fid' };
+                readonly title: { readonly column: 'title' };
+                readonly description: { readonly column: 'description' };
+                readonly category: { readonly column: 'category' };
+                readonly price: { readonly column: 'price' };
+                readonly length: { readonly column: 'length' };
+                readonly rating: { readonly column: 'rating' };
+                readonly actors: { readonly column: 'actors' };
               };
             };
           };
