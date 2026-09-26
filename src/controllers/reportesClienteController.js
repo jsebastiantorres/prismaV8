@@ -1,6 +1,6 @@
 
 // importamos los servicios del repository
-import { pagadoCliente } from "../repository/clienteFuncionesRepository.js";
+import { pagadoCliente } from "../repository/reportesClienteRepository.js";
 
 // Reporte total pagado cliente con repository
 export const totalPagadoCliente = async (req, res) => {

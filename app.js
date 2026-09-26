@@ -47,8 +47,7 @@ app.use("/categoria", categoriaRoutes);
 app.use("/filmCategory", filmCategoryRoutes);
 
 // RUTA FILMS
-app.use("/film", filmRoutes)
-
+app.use("/film", filmRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto http://localhost:${port}`);
