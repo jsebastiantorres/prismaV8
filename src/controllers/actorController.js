@@ -1,25 +1,30 @@
-// se importa o se instancia el modelo general de prisma
-import { db } from "../prisma/db.ts";
-
 // importamos servicios
-import { readActor } from "../repository/actorRepository.js";
+import {
+  readActor,
+  readAllActors,
+  createActor,
+  updateActor,
+  deleteActor,
+} from "../repository/actorRepository.js";
 
-// Obtener TODOS (all) los actores
+// Obtener TODOS (all) los actores desde repository
 export const obtenerActoresAll = async (req, res) => {
   try {
-    // Sintaxis de prisma 8 para traer todos los registros
-    const actores = await db.orm.public.Actor.all();
-    res.status(200).json(actores);
+    // repository
+    const actores = await readAllActors();
+
+    res.status(200).json({ message: "Actores", actores: actores });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// obtener ACTOR por ID
+// obtener ACTOR por ID desde repository
 export const obtenerActorId = async (req, res) => {
   try {
     const idActor = Number(req.params.id);
 
+    // repository
     const actorBuscado = await readActor(idActor);
 
     console.log(actorBuscado);
@@ -29,16 +34,14 @@ export const obtenerActorId = async (req, res) => {
   }
 };
 
-// CREAR ACTOR
+// CREAR ACTOR desde repository
 export const crearActor = async (req, res) => {
   try {
     // datos del form
     const { first_name, last_name } = req.body;
 
-    const nuevoActor = await db.orm.public.Actor.create({
-      first_name: first_name,
-      last_name: last_name,
-    });
+    // repository
+    const nuevoActor = await createActor(first_name, last_name);
 
     console.log("se ha creado el actor");
     res.status(200).json({ message: "actor creado", actor: nuevoActor });
@@ -47,19 +50,15 @@ export const crearActor = async (req, res) => {
   }
 };
 
-// ACTUALIZAR ACTOR
+// ACTUALIZAR ACTOR desde repository
 export const actualizarActor = async (req, res) => {
   try {
     const idActor = req.params.id;
     const { first_name, last_name } = req.body;
-    const actualizarDatos = db.orm.public.Actor.where({
-      actorId: idActor,
-    }).update({
-      firstName: first_name,
-      lastName: last_name,
-    });
 
-    console.log("Se ha actualizado el actor");
+    // repository
+    const actualizarDatos = await updateActor(idActor, first_name, last_name);
+
     res
       .status(200)
       .json({ message: "Datos actualizados", actor: actualizarDatos });
@@ -69,14 +68,13 @@ export const actualizarActor = async (req, res) => {
   }
 };
 
-// ELIMINAR ACTOR
+// ELIMINAR ACTOR desde repository
 export const eliminarActor = async (req, res) => {
   try {
     const idActor = req.params.id;
 
-    const eliminarActor = db.orm.public.Actor.where({
-      actorId: idActor,
-    }).delete();
+    // repository
+    const eliminarActor = await deleteActor(idActor);
 
     res
       .status(200)
