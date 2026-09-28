@@ -1,14 +1,16 @@
 // importamos la DB
 import { db } from "../prisma/db.ts";
 
-// CREAR categoria
+// importar repositorio de categoria
+import {crearCategory} from "../repository/categoriaRepository.js";
+
+
+// CREAR categoria con repository
 export const crearCategoria = async (req, res) => {
   try {
     const { name } = req.body;
 
-    const categoriaCreada = db.orm.public.Category.create({
-      name: name,
-    });
+    const categoriaCreada = await crearCategory(name);
     console.log("Se creo la categoria");
     res
       .status(200)

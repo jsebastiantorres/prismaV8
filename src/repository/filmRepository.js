@@ -5,3 +5,5 @@ import { db } from "../prisma/db.ts";
 export function readFilmAll() {
   return db.orm.public.Film.orderBy((f) => f.rating.desc()).all();
 }
+
+
