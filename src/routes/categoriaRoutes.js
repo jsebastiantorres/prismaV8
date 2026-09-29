@@ -8,6 +8,7 @@ import {
   obtenerCategoriaId,
   actualizarCategoria,
   eliminarCategoria,
+  eliminarCategoriaNombre
 } from "../controllers/categoriaController.js";
 
 // utilizamos router
@@ -25,7 +26,10 @@ router.get("/:id", obtenerCategoriaId);
 // ACTUALIZAR categoria
 router.patch("/update/:id", actualizarCategoria);
 
-// ELIMINAR categoria
-router.delete("/delete/:id", eliminarCategoria);
+// ELIMINAR categoria x id
+router.delete("/delete/id/:id", eliminarCategoria);
+
+// ELIMINAR categoria x nombre
+router.delete("/delete/name/:name", eliminarCategoriaNombre);
 
 export default router;
