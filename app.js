@@ -1,5 +1,8 @@
 console.log("¡Proyecto de Node.js iniciado con éxito!");
 
+// Importacion de ruta para usuario
+import usuarioRoutes from "./src/routes/usuarioRoutes.js";
+
 // Importacion de ruta de actores
 import actorRoutes from "./src/routes/actorRoutes.js";
 
@@ -30,6 +33,9 @@ const port = process.env.PORT || 5000;
 
 // configuracion de la base de datos
 import { db } from "./src/prisma/db.ts";
+
+// RUTA DE USUARIOS
+app.use("/usuarios", usuarioRoutes);
 
 // RUTA DE ACTORES
 app.use("/actores", actorRoutes);

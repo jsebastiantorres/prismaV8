@@ -8,13 +8,11 @@
 8. crea la carpeta y schema.prisma: npx prisma orm init
 9. crear el .env para manejar la URL de postgresql
 
-
 10. migrar la base de datos: npx prisma contract infer --output ./src/prisma/contract.prisma
-Esto migra y crea los modelos dentro del contracto contract.prisma
+    Esto migra y crea los modelos dentro del contracto contract.prisma
 
-
-11. Genera los tipos y el cliente Una vez que termine y veas tus tablas escritas en el archivo, 
-compila el contrato para actualizar tu cliente de Node.js:bash
+11. Genera los tipos y el cliente Una vez que termine y veas tus tablas escritas en el archivo,
+    compila el contrato para actualizar tu cliente de Node.js:bash
 
 npx prisma contract emit
 
@@ -22,22 +20,20 @@ Debes ejecutarlo cada vez que realices un cambio en la estructura de tus modelos
 
 Con Prisma 8, ya no importas un new PrismaClient() genérico. El comando emit te habrá generado un archivo de base de datos listo para usar en la ruta src/prisma/db.ts
 
-
-
 12. crear el archivo de conexión a la base de datos y conectar Prisma con tus rutas de Express
 13. configurar el db.ts con la sintaxis para JS
 
-
 14. Instalacion npm install express
-npm install express
-
+    npm install express
 
 15. npm install --save-dev nodemon
 
 16. configuracion del servidor app.js con los import de expres, db de prisma
 
 17. instalar polyfill para inyectar la compatibilidad global
-npm install temporal-polyfill
-importar en db.ts
-import "temporal-polyfill/full/global"; 
+    npm install temporal-polyfill
+    importar en db.ts
+    import "temporal-polyfill/full/global";
 
+18. Para traer las tablas nuevas de la DB al contrato: npx prisma contract infer
+19. Luego regenera los artefactos: npx prisma contract emit

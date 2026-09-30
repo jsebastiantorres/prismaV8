@@ -40,10 +40,6 @@
       "model": "FilmCategory",
       "namespace": "public"
     },
-    "film_list": {
-      "model": "FilmList",
-      "namespace": "public"
-    },
     "inventory": {
       "model": "Inventory",
       "namespace": "public"
@@ -54,6 +50,10 @@
     },
     "payment": {
       "model": "Payment",
+      "namespace": "public"
+    },
+    "perfil": {
+      "model": "Perfil",
       "namespace": "public"
     },
     "rental": {
@@ -71,38 +71,15 @@
     "store": {
       "model": "Store",
       "namespace": "public"
+    },
+    "usuario": {
+      "model": "Usuario",
+      "namespace": "public"
     }
   },
   "domain": {
     "namespaces": {
       "public": {
-        "enum": {
-          "MpaaRating": {
-            "codecId": "pg/text@1",
-            "members": [
-              {
-                "name": "G",
-                "value": "G"
-              },
-              {
-                "name": "PG",
-                "value": "PG"
-              },
-              {
-                "name": "PG_13",
-                "value": "PG-13"
-              },
-              {
-                "name": "R",
-                "value": "R"
-              },
-              {
-                "name": "NC_17",
-                "value": "NC-17"
-              }
-            ]
-          }
-        },
         "models": {
           "Actor": {
             "fields": {
@@ -116,26 +93,48 @@
               "firstName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "filmActors": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "actorId"
+                  ],
+                  "targetFields": [
+                    "actorId"
+                  ]
+                },
+                "to": {
+                  "model": "FilmActor",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "actorId": {
@@ -160,15 +159,21 @@
               "address": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "address2": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "addressId": {
@@ -181,36 +186,45 @@
               "cityId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "district": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 20
+                  }
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "phone": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 20
+                  }
                 }
               },
               "postalCode": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 10
+                  }
                 }
               }
             },
@@ -319,15 +333,18 @@
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "name": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 25
+                  }
                 }
               }
             },
@@ -369,8 +386,11 @@
               "city": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "cityId": {
@@ -383,14 +403,14 @@
               "countryId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               }
@@ -451,8 +471,11 @@
               "country": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "countryId": {
@@ -465,7 +488,7 @@
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               }
@@ -522,14 +545,14 @@
               "addressId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "createDate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/date-temporal@1",
                   "kind": "scalar"
                 }
               },
@@ -543,35 +566,44 @@
               "email": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "firstName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastUpdate": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "storeId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               }
@@ -679,63 +711,61 @@
               "languageId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "length": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "rating": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                },
-                "valueSet": {
-                  "entityKind": "enum",
-                  "entityName": "MpaaRating",
-                  "namespaceId": "public",
-                  "plane": "domain"
-                }
-              },
-              "releaseYear": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
+                  "codecId": "pg/enum@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "typeName": "mpaa_rating"
+                  }
                 }
               },
               "rentalDuration": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "rentalRate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/float8@1",
-                  "kind": "scalar"
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 4,
+                    "scale": 2
+                  }
                 }
               },
               "replacementCost": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/float8@1",
-                  "kind": "scalar"
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 5,
+                    "scale": 2
+                  }
                 }
               },
               "specialFeatures": {
@@ -749,8 +779,11 @@
               "title": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 255
+                  }
                 }
               }
             },
@@ -836,9 +869,6 @@
                 "rating": {
                   "column": "rating"
                 },
-                "releaseYear": {
-                  "column": "release_year"
-                },
                 "rentalDuration": {
                   "column": "rental_duration"
                 },
@@ -864,21 +894,21 @@
               "actorId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "filmId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               }
@@ -936,21 +966,21 @@
               "categoryId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "filmId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               }
@@ -1003,119 +1033,12 @@
               "table": "film_category"
             }
           },
-          "FilmList": {
-            "fields": {
-              "actors": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "category": {
-                "nullable": true,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "length": 25
-                  }
-                }
-              },
-              "description": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "fid": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
-                }
-              },
-              "length": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/int2@1",
-                  "kind": "scalar"
-                }
-              },
-              "price": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/numeric@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "precision": 4,
-                    "scale": 2
-                  }
-                }
-              },
-              "rating": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                },
-                "valueSet": {
-                  "entityKind": "enum",
-                  "entityName": "MpaaRating",
-                  "namespaceId": "public",
-                  "plane": "domain"
-                }
-              },
-              "title": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "length": 255
-                  }
-                }
-              }
-            },
-            "relations": {},
-            "storage": {
-              "fields": {
-                "actors": {
-                  "column": "actors"
-                },
-                "category": {
-                  "column": "category"
-                },
-                "description": {
-                  "column": "description"
-                },
-                "fid": {
-                  "column": "fid"
-                },
-                "length": {
-                  "column": "length"
-                },
-                "price": {
-                  "column": "price"
-                },
-                "rating": {
-                  "column": "rating"
-                },
-                "title": {
-                  "column": "title"
-                }
-              },
-              "namespaceId": "public",
-              "table": "film_list"
-            }
-          },
           "Inventory": {
             "fields": {
               "filmId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
@@ -1129,14 +1052,14 @@
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "storeId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               }
@@ -1204,15 +1127,18 @@
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "name": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/char@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 20
+                  }
                 }
               }
             },
@@ -1254,21 +1180,25 @@
               "amount": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/float8@1",
-                  "kind": "scalar"
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 5,
+                    "scale": 2
+                  }
                 }
               },
               "customerId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "paymentDate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
@@ -1280,7 +1210,7 @@
                 }
               },
               "rentalId": {
-                "nullable": true,
+                "nullable": false,
                 "type": {
                   "codecId": "pg/int4@1",
                   "kind": "scalar"
@@ -1289,7 +1219,7 @@
               "staffId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               }
@@ -1366,12 +1296,85 @@
               "table": "payment"
             }
           },
+          "Perfil": {
+            "fields": {
+              "descripcion": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
+                }
+              },
+              "fechaRegistro": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "nombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 25
+                  }
+                }
+              },
+              "perfilId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "usuarios": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "perfilId"
+                  ],
+                  "targetFields": [
+                    "perfilId"
+                  ]
+                },
+                "to": {
+                  "model": "Usuario",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "descripcion": {
+                  "column": "descripcion"
+                },
+                "fechaRegistro": {
+                  "column": "fecha_registro"
+                },
+                "nombre": {
+                  "column": "nombre"
+                },
+                "perfilId": {
+                  "column": "perfil_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "perfil"
+            }
+          },
           "Rental": {
             "fields": {
               "customerId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
@@ -1385,14 +1388,14 @@
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "rentalDate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
@@ -1406,14 +1409,14 @@
               "returnDate": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "staffId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               }
@@ -1534,7 +1537,7 @@
               "reviewDate": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
@@ -1591,43 +1594,55 @@
               "addressId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "email": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
                 }
               },
               "firstName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastName": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "password": {
                 "nullable": true,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 40
+                  }
                 }
               },
               "picture": {
@@ -1647,15 +1662,18 @@
               "storeId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "username": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 16
+                  }
                 }
               }
             },
@@ -1672,21 +1690,6 @@
                 },
                 "to": {
                   "model": "Address",
-                  "namespace": "public"
-                }
-              },
-              "managedStore": {
-                "cardinality": "1:1",
-                "on": {
-                  "localFields": [
-                    "staffId"
-                  ],
-                  "targetFields": [
-                    "managerStaffId"
-                  ]
-                },
-                "to": {
-                  "model": "Store",
                   "namespace": "public"
                 }
               },
@@ -1717,6 +1720,21 @@
                 },
                 "to": {
                   "model": "Rental",
+                  "namespace": "public"
+                }
+              },
+              "store": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "staffId"
+                  ],
+                  "targetFields": [
+                    "managerStaffId"
+                  ]
+                },
+                "to": {
+                  "model": "Store",
                   "namespace": "public"
                 }
               }
@@ -1766,21 +1784,21 @@
               "addressId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
               "lastUpdate": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "kind": "scalar"
                 }
               },
               "managerStaffId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "kind": "scalar"
                 }
               },
@@ -1842,6 +1860,89 @@
               "namespaceId": "public",
               "table": "store"
             }
+          },
+          "Usuario": {
+            "fields": {
+              "fechaRegistro": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "nombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 50
+                  }
+                }
+              },
+              "perfilId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "usuario": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 15
+                  }
+                }
+              },
+              "usuarioId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "perfil": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "perfilId"
+                  ],
+                  "targetFields": [
+                    "perfilId"
+                  ]
+                },
+                "to": {
+                  "model": "Perfil",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "fechaRegistro": {
+                  "column": "fecha_registro"
+                },
+                "nombre": {
+                  "column": "nombre"
+                },
+                "perfilId": {
+                  "column": "perfil_id"
+                },
+                "usuario": {
+                  "column": "usuario"
+                },
+                "usuarioId": {
+                  "column": "usuario_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "usuario"
+            }
           }
         }
       }
@@ -1851,6 +1952,19 @@
     "namespaces": {
       "public": {
         "entries": {
+          "native_enum": {
+            "mpaa_rating": {
+              "kind": "postgres-enum",
+              "members": [
+                "G",
+                "PG",
+                "PG-13",
+                "R",
+                "NC-17"
+              ],
+              "typeName": "mpaa_rating"
+            }
+          },
           "table": {
             "actor": {
               "columns": {
@@ -1864,17 +1978,23 @@
                   "nullable": false
                 },
                 "first_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -1904,14 +2024,20 @@
             "address": {
               "columns": {
                 "address": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "address2": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "address_id": {
                   "codecId": "pg/int4@1",
@@ -1923,17 +2049,20 @@
                   "nullable": false
                 },
                 "city_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "district": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 20
+                  }
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -1942,14 +2071,20 @@
                   "nullable": false
                 },
                 "phone": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 20
+                  }
                 },
                 "postal_code": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 10
+                  }
                 }
               },
               "foreignKeys": [
@@ -2000,7 +2135,7 @@
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2009,9 +2144,12 @@
                   "nullable": false
                 },
                 "name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 25
+                  }
                 }
               },
               "foreignKeys": [],
@@ -2027,9 +2165,12 @@
             "city": {
               "columns": {
                 "city": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "city_id": {
                   "codecId": "pg/int4@1",
@@ -2041,12 +2182,12 @@
                   "nullable": false
                 },
                 "country_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2094,9 +2235,12 @@
             "country": {
               "columns": {
                 "country": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "country_id": {
                   "codecId": "pg/int4@1",
@@ -2108,7 +2252,7 @@
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2144,17 +2288,17 @@
                   "nullable": false
                 },
                 "address_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "create_date": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/date-temporal@1",
                   "default": {
-                    "expression": "now()",
+                    "expression": "('now'::text)::date",
                     "kind": "function"
                   },
-                  "nativeType": "timestamp",
+                  "nativeType": "date",
                   "nullable": false
                 },
                 "customer_id": {
@@ -2167,22 +2311,31 @@
                   "nullable": false
                 },
                 "email": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "first_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2191,8 +2344,8 @@
                   "nullable": true
                 },
                 "store_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 }
               },
@@ -2249,18 +2402,6 @@
               "uniques": []
             },
             "film": {
-              "checks": [
-                {
-                  "expression": "\"rating\" IN ('G', 'PG', 'PG-13', 'R', 'NC-17')",
-                  "name": "film_rating_check_4d490910",
-                  "prefix": "film_rating_check"
-                },
-                {
-                  "expression": "array_position(\"special_features\", NULL) IS NULL",
-                  "name": "film_special_features_elem_not_null_f826c538",
-                  "prefix": "film_special_features_elem_not_null"
-                }
-              ],
               "columns": {
                 "description": {
                   "codecId": "pg/text@1",
@@ -2277,12 +2418,12 @@
                   "nullable": false
                 },
                 "language_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2291,18 +2432,21 @@
                   "nullable": false
                 },
                 "length": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": true
                 },
                 "rating": {
-                  "codecId": "pg/text@1",
+                  "codecId": "pg/enum@1",
                   "default": {
                     "kind": "literal",
                     "value": "G"
                   },
-                  "nativeType": "text",
+                  "nativeType": "mpaa_rating",
                   "nullable": true,
+                  "typeParams": {
+                    "typeName": "mpaa_rating"
+                  },
                   "valueSet": {
                     "entityKind": "valueSet",
                     "entityName": "MpaaRating",
@@ -2310,48 +2454,57 @@
                     "plane": "storage"
                   }
                 },
-                "release_year": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
-                  "nullable": true
-                },
                 "rental_duration": {
-                  "codecId": "pg/int4@1",
+                  "codecId": "pg/int2@1",
                   "default": {
                     "kind": "literal",
                     "value": 3
                   },
-                  "nativeType": "int4",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "rental_rate": {
-                  "codecId": "pg/float8@1",
+                  "codecId": "pg/numeric@1",
                   "default": {
                     "kind": "literal",
                     "value": 4.99
                   },
-                  "nativeType": "float8",
-                  "nullable": false
+                  "nativeType": "numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 4,
+                    "scale": 2
+                  }
                 },
                 "replacement_cost": {
-                  "codecId": "pg/float8@1",
+                  "codecId": "pg/numeric@1",
                   "default": {
                     "kind": "literal",
                     "value": 19.99
                   },
-                  "nativeType": "float8",
-                  "nullable": false
+                  "nativeType": "numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 5,
+                    "scale": 2
+                  }
                 },
                 "special_features": {
                   "codecId": "pg/text@1",
                   "many": true,
                   "nativeType": "text",
+                  "noCheck": [
+                    "elementNotNull"
+                  ],
                   "nullable": false
                 },
                 "title": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 255
+                  }
                 }
               },
               "foreignKeys": [
@@ -2402,17 +2555,17 @@
             "film_actor": {
               "columns": {
                 "actor_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "film_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2464,14 +2617,6 @@
               "indexes": [
                 {
                   "columns": [
-                    "actor_id"
-                  ],
-                  "name": "film_actor_actor_id_idx_69a2164d",
-                  "prefix": "film_actor_actor_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
                     "film_id"
                   ],
                   "name": "idx_fk_film_id",
@@ -2490,17 +2635,17 @@
             "film_category": {
               "columns": {
                 "category_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "film_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2549,24 +2694,7 @@
                   }
                 }
               ],
-              "indexes": [
-                {
-                  "columns": [
-                    "category_id"
-                  ],
-                  "name": "film_category_category_id_idx_da7213d4",
-                  "prefix": "film_category_category_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
-                    "film_id"
-                  ],
-                  "name": "film_category_film_id_idx_9d2ea86f",
-                  "prefix": "film_category_film_id_idx",
-                  "unique": false
-                }
-              ],
+              "indexes": [],
               "primaryKey": {
                 "columns": [
                   "film_id",
@@ -2576,80 +2704,11 @@
               },
               "uniques": []
             },
-            "film_list": {
-              "columns": {
-                "actors": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
-                },
-                "category": {
-                  "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
-                  "nullable": true,
-                  "typeParams": {
-                    "length": 25
-                  }
-                },
-                "description": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
-                },
-                "fid": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
-                  "nullable": false
-                },
-                "length": {
-                  "codecId": "pg/int2@1",
-                  "nativeType": "int2",
-                  "nullable": true
-                },
-                "price": {
-                  "codecId": "pg/numeric@1",
-                  "nativeType": "numeric",
-                  "nullable": true,
-                  "typeParams": {
-                    "precision": 4,
-                    "scale": 2
-                  }
-                },
-                "rating": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true,
-                  "valueSet": {
-                    "entityKind": "valueSet",
-                    "entityName": "MpaaRating",
-                    "namespaceId": "public",
-                    "plane": "storage"
-                  }
-                },
-                "title": {
-                  "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
-                  "nullable": false,
-                  "typeParams": {
-                    "length": 255
-                  }
-                }
-              },
-              "control": "external",
-              "foreignKeys": [],
-              "indexes": [],
-              "primaryKey": {
-                "columns": [
-                  "fid"
-                ]
-              },
-              "uniques": []
-            },
             "inventory": {
               "columns": {
                 "film_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "inventory_id": {
@@ -2662,7 +2721,7 @@
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2671,8 +2730,8 @@
                   "nullable": false
                 },
                 "store_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 }
               },
@@ -2705,14 +2764,6 @@
                   ],
                   "name": "idx_store_id_film_id",
                   "unique": false
-                },
-                {
-                  "columns": [
-                    "film_id"
-                  ],
-                  "name": "inventory_film_id_idx_9d2ea86f",
-                  "prefix": "inventory_film_id_idx",
-                  "unique": false
                 }
               ],
               "primaryKey": {
@@ -2735,7 +2786,7 @@
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2744,9 +2795,12 @@
                   "nullable": false
                 },
                 "name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/char@1",
+                  "nativeType": "character",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 20
+                  }
                 }
               },
               "foreignKeys": [],
@@ -2762,17 +2816,21 @@
             "payment": {
               "columns": {
                 "amount": {
-                  "codecId": "pg/float8@1",
-                  "nativeType": "float8",
-                  "nullable": false
+                  "codecId": "pg/numeric@1",
+                  "nativeType": "numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 5,
+                    "scale": 2
+                  }
                 },
                 "customer_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "payment_date": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "nativeType": "timestamp",
                   "nullable": false
                 },
@@ -2788,11 +2846,11 @@
                 "rental_id": {
                   "codecId": "pg/int4@1",
                   "nativeType": "int4",
-                  "nullable": true
+                  "nullable": false
                 },
                 "staff_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 }
               },
@@ -2817,8 +2875,7 @@
                   }
                 },
                 {
-                  "name": "payment_rental_id_fkey",
-                  "onDelete": "setNull",
+                  "onDelete": "restrict",
                   "onUpdate": "cascade",
                   "source": {
                     "columns": [
@@ -2886,11 +2943,65 @@
               },
               "uniques": []
             },
+            "perfil": {
+              "columns": {
+                "descripcion": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 50
+                  }
+                },
+                "fecha_registro": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": true
+                },
+                "nombre": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 25
+                  }
+                },
+                "perfil_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "perfil_id"
+                ],
+                "name": "perfil_pkey"
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "descripcion"
+                  ],
+                  "name": "perfil_descripcion_key"
+                }
+              ]
+            },
             "rental": {
               "columns": {
                 "customer_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "inventory_id": {
@@ -2899,7 +3010,7 @@
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -2908,7 +3019,7 @@
                   "nullable": false
                 },
                 "rental_date": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "nativeType": "timestamp",
                   "nullable": false
                 },
@@ -2922,13 +3033,13 @@
                   "nullable": false
                 },
                 "return_date": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "nativeType": "timestamp",
                   "nullable": true
                 },
                 "staff_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 }
               },
@@ -2999,19 +3110,12 @@
                 },
                 {
                   "columns": [
+                    "rental_date",
+                    "inventory_id",
                     "customer_id"
                   ],
-                  "name": "rental_customer_id_idx_e16dfa6b",
-                  "prefix": "rental_customer_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
-                    "staff_id"
-                  ],
-                  "name": "rental_staff_id_idx_416d53f4",
-                  "prefix": "rental_staff_id_idx",
-                  "unique": false
+                  "name": "idx_unq_rental_rental_date_inventory_id_customer_id",
+                  "unique": true
                 }
               ],
               "primaryKey": {
@@ -3020,18 +3124,15 @@
                 ],
                 "name": "rental_pkey"
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "rental_date",
-                    "inventory_id",
-                    "customer_id"
-                  ],
-                  "name": "idx_unq_rental_rental_date_inventory_id_customer_id"
-                }
-              ]
+              "uniques": []
             },
             "review": {
+              "checks": [
+                {
+                  "expression": "((rating >= 1) AND (rating <= 5))",
+                  "name": "review_rating_check"
+                }
+              ],
               "columns": {
                 "customer_id": {
                   "codecId": "pg/int4@1",
@@ -3049,7 +3150,7 @@
                   "nullable": true
                 },
                 "review_date": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -3094,27 +3195,36 @@
                   "nullable": false
                 },
                 "address_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "email": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 50
+                  }
                 },
                 "first_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_name": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 45
+                  }
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -3123,9 +3233,12 @@
                   "nullable": false
                 },
                 "password": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 40
+                  }
                 },
                 "picture": {
                   "codecId": "pg/bytea@1",
@@ -3142,14 +3255,17 @@
                   "nullable": false
                 },
                 "store_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "username": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 16
+                  }
                 }
               },
               "foreignKeys": [
@@ -3173,16 +3289,7 @@
                   }
                 }
               ],
-              "indexes": [
-                {
-                  "columns": [
-                    "address_id"
-                  ],
-                  "name": "staff_address_id_idx_f563b795",
-                  "prefix": "staff_address_id_idx",
-                  "unique": false
-                }
-              ],
+              "indexes": [],
               "primaryKey": {
                 "columns": [
                   "staff_id"
@@ -3194,12 +3301,12 @@
             "store": {
               "columns": {
                 "address_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "last_update": {
-                  "codecId": "pg/timestamp-string@1",
+                  "codecId": "pg/timestamp-temporal@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -3208,8 +3315,8 @@
                   "nullable": false
                 },
                 "manager_staff_id": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "codecId": "pg/int2@1",
+                  "nativeType": "int2",
                   "nullable": false
                 },
                 "store_id": {
@@ -3265,11 +3372,10 @@
               "indexes": [
                 {
                   "columns": [
-                    "address_id"
+                    "manager_staff_id"
                   ],
-                  "name": "store_address_id_idx_f563b795",
-                  "prefix": "store_address_id_idx",
-                  "unique": false
+                  "name": "idx_unq_manager_staff_id",
+                  "unique": true
                 }
               ],
               "primaryKey": {
@@ -3278,12 +3384,82 @@
                 ],
                 "name": "store_pkey"
               },
+              "uniques": []
+            },
+            "usuario": {
+              "columns": {
+                "fecha_registro": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamp",
+                  "nullable": true
+                },
+                "nombre": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 50
+                  }
+                },
+                "perfil_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "usuario": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 15
+                  }
+                },
+                "usuario_id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "name": "fk_perfil",
+                  "source": {
+                    "columns": [
+                      "perfil_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "usuario"
+                  },
+                  "target": {
+                    "columns": [
+                      "perfil_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "perfil"
+                  }
+                }
+              ],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "usuario_id"
+                ],
+                "name": "usuario_pkey"
+              },
               "uniques": [
                 {
                   "columns": [
-                    "manager_staff_id"
+                    "usuario"
                   ],
-                  "name": "idx_unq_manager_staff_id"
+                  "name": "usuario_usuario_key"
                 }
               ]
             }
@@ -3305,7 +3481,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "236c8e60c892d42e8fb942b88b052547e755e1a591c84073e27cdabe85c21d07"
+    "storageHash": "aeaea8c97a4fce893dac532797298786a9591f862b0e99f324727a8280c19507"
   },
   "capabilities": {
     "postgres": {
