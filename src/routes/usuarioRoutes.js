@@ -6,6 +6,6 @@ import { iniciarSesion } from "../controllers/usuarioController.js";
 
 const router = express.Router();
 
-router.get("/login", iniciarSesion);
+router.post("/login", iniciarSesion);
 
 export default router;

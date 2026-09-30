@@ -7,9 +7,12 @@ export const iniciarSesion = async (req, res) => {
 
     const loginUsuario = await loginUser(usuario);
     console.log(loginUsuario);
-    res
-      .status(200)
-      .json({ message: "inicio sesión exitoso", usuario: loginUsuario });
+
+    if (!loginUsuario) {
+      res.status(400).json({ message: "usuario incorrecto" });
+    } else if (loginUsuario.usuario === usuario) {
+      res.status(200).json({ message: "Bienvenido", usuario: loginUsuario });
+    }
   } catch (error) {
     res.status(400).json({ err: error.message });
   }
