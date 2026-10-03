@@ -197,8 +197,7 @@ namespace public {
     amount      Numeric(5, 2)
     paymentDate Timestamp     @map("payment_date")
     customer    Customer      @relation(fields: [customerId], references: [customerId], onDelete: Restrict, onUpdate: Cascade, map: "payment_customer_id_fkey")
-  rental Rental @relation(fields: [rentalId], references: [rentalId], onDelete: Restrict, onUpdate: Cascade)
-    // rental      Rental        @relation(fields: [rentalId], references: [rentalId], onDelete: SetNull, onUpdate: Cascade, map: "payment_rental_id_fkey")
+    rental      Rental        @relation(fields: [rentalId], references: [rentalId], onDelete: Restrict, onUpdate: Cascade, map: "payment_rental_id_fkey")
     staff       Staff         @relation(fields: [staffId], references: [staffId], onDelete: Restrict, onUpdate: Cascade, map: "payment_staff_id_fkey")
 
     @@index([customerId], map: "idx_fk_customer_id")

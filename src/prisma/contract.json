@@ -2875,6 +2875,7 @@
                   }
                 },
                 {
+                  "name": "payment_rental_id_fkey",
                   "onDelete": "restrict",
                   "onUpdate": "cascade",
                   "source": {
@@ -3481,7 +3482,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "aeaea8c97a4fce893dac532797298786a9591f862b0e99f324727a8280c19507"
+    "storageHash": "cabb3fd54c96ffab78ed7ae3e9adc5b3f5cc7dfddad76a835116f5b9edc515ce"
   },
   "capabilities": {
     "postgres": {
