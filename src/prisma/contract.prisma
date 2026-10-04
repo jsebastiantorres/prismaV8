@@ -251,6 +251,7 @@ namespace public {
     @@map("usuario")
   }
 
+   
   native_enum MpaaRating {
     G = "G"
     PG = "PG"
