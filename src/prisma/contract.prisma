@@ -246,12 +246,12 @@ namespace public {
     usuario       VarChar(15) @unique(map: "usuario_usuario_key")
     fechaRegistro Timestamp?  @default(now()) @map("fecha_registro")
     perfilId      Int?        @map("perfil_id")
+    passwordHash  Char(60)?   @map("password_hash")
     perfil        Perfil?     @relation(fields: [perfilId], references: [perfilId], map: "fk_perfil", index: false)
 
     @@map("usuario")
   }
 
-   
   native_enum MpaaRating {
     G = "G"
     PG = "PG"

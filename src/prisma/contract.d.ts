@@ -33,7 +33,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'cabb3fd54c96ffab78ed7ae3e9adc5b3f5cc7dfddad76a835116f5b9edc515ce'>;
+  StorageHashBase<'60265e68a3b2d9ceb52eb1ab24ab93a1bd70ff85ec135d2d8138b544376616bf'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -374,6 +374,7 @@ export type FieldOutputTypes = {
       readonly usuario: Varchar<15>;
       readonly fechaRegistro: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
       readonly perfilId: CodecTypes['pg/int4@1']['output'] | null;
+      readonly passwordHash: Char<60> | null;
     };
   };
 };
@@ -513,6 +514,7 @@ export type FieldInputTypes = {
       readonly usuario: CodecTypes['sql/varchar@1']['input'];
       readonly fechaRegistro: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
       readonly perfilId: CodecTypes['pg/int4@1']['input'] | null;
+      readonly passwordHash: CodecTypes['sql/char@1']['input'] | null;
     };
   };
 };
@@ -649,6 +651,7 @@ export type StorageColumnTypes = {
     readonly usuario: {
       readonly fecha_registro: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
       readonly nombre: Varchar<50>;
+      readonly password_hash: Char<60> | null;
       readonly perfil_id: CodecTypes['pg/int4@1']['output'] | null;
       readonly usuario: Varchar<15>;
       readonly usuario_id: CodecTypes['pg/int4@1']['output'];
@@ -788,6 +791,7 @@ export type StorageColumnInputTypes = {
     readonly usuario: {
       readonly fecha_registro: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
       readonly nombre: CodecTypes['sql/varchar@1']['input'];
+      readonly password_hash: CodecTypes['sql/char@1']['input'] | null;
       readonly perfil_id: CodecTypes['pg/int4@1']['input'] | null;
       readonly usuario: CodecTypes['sql/varchar@1']['input'];
       readonly usuario_id: CodecTypes['pg/int4@1']['input'];
@@ -1957,6 +1961,12 @@ type ContractBase = Omit<
                   readonly nativeType: 'int4';
                   readonly codecId: 'pg/int4@1';
                   readonly nullable: true;
+                };
+                readonly password_hash: {
+                  readonly nativeType: 'character';
+                  readonly codecId: 'sql/char@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly length: 60 };
                 };
               };
               primaryKey: {
@@ -3286,6 +3296,14 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
+              readonly passwordHash: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/char@1';
+                  readonly typeParams: { readonly length: 60 };
+                };
+              };
             };
             readonly relations: {
               readonly perfil: {
@@ -3309,6 +3327,7 @@ type ContractBase = Omit<
                 readonly usuario: { readonly column: 'usuario' };
                 readonly fechaRegistro: { readonly column: 'fecha_registro' };
                 readonly perfilId: { readonly column: 'perfil_id' };
+                readonly passwordHash: { readonly column: 'password_hash' };
               };
             };
           };

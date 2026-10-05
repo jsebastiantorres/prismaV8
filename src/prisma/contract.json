@@ -1880,6 +1880,16 @@
                   }
                 }
               },
+              "passwordHash": {
+                "nullable": true,
+                "type": {
+                  "codecId": "sql/char@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 60
+                  }
+                }
+              },
               "perfilId": {
                 "nullable": true,
                 "type": {
@@ -1929,6 +1939,9 @@
                 },
                 "nombre": {
                   "column": "nombre"
+                },
+                "passwordHash": {
+                  "column": "password_hash"
                 },
                 "perfilId": {
                   "column": "perfil_id"
@@ -3406,6 +3419,14 @@
                     "length": 50
                   }
                 },
+                "password_hash": {
+                  "codecId": "sql/char@1",
+                  "nativeType": "character",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 60
+                  }
+                },
                 "perfil_id": {
                   "codecId": "pg/int4@1",
                   "nativeType": "int4",
@@ -3482,7 +3503,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "cabb3fd54c96ffab78ed7ae3e9adc5b3f5cc7dfddad76a835116f5b9edc515ce"
+    "storageHash": "60265e68a3b2d9ceb52eb1ab24ab93a1bd70ff85ec135d2d8138b544376616bf"
   },
   "capabilities": {
     "postgres": {

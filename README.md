@@ -37,3 +37,8 @@ Con Prisma 8, ya no importas un new PrismaClient() genérico. El comando emit te
 
 18. Para traer las tablas nuevas de la DB al contrato: npx prisma contract infer
 19. Luego regenera los artefactos: npx prisma contract emit
+
+
+20. Intalacion de bcryptjs para autenticacion
+    1.  npm install bcryptjs
+    2.  
