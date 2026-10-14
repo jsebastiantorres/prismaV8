@@ -40,15 +40,16 @@ export const iniciarSesion = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
     // validacion credenciales
     const validacionCredenciales = await login(usuario);
+    const validacionDePassword = await bcrypt.compare(
+      password,
+      validacionCredenciales.passwordHash,
+    );
 
     console.log(validacionCredenciales);
 
     // Comparaciones
-    if (
-      !validacionCredenciales ||
-      !(await bcrypt.compare(password, validacionCredenciales.passwordHash))
-    ) {
-      return res.status(401).json({ error: "Credenciales inválidas" });
+    if (!validacionCredenciales || !validacionDePassword) {
+      return res.status(401).json({ error: "Caredenciales inválidas" });
     }
 
     res.status(200).json({ message: "bienvenido" });

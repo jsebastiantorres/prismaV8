@@ -41,4 +41,7 @@ Con Prisma 8, ya no importas un new PrismaClient() genérico. El comando emit te
 
 20. Intalacion de bcryptjs para autenticacion
     1.  npm install bcryptjs
-    2.  
+
+
+21. Instalación de JWT
+22. npm intall jsonwebtoken 
