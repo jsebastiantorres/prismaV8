@@ -33,7 +33,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'60265e68a3b2d9ceb52eb1ab24ab93a1bd70ff85ec135d2d8138b544376616bf'>;
+  StorageHashBase<'f09a63a963efcd8df8d97b603d130313c038746c71707ebe8a0e7d28c1d4021a'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -349,6 +349,11 @@ export type FieldOutputTypes = {
       readonly reviewText: CodecTypes['pg/text@1']['output'] | null;
       readonly reviewDate: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
     };
+    readonly Session: {
+      readonly sid: CodecTypes['sql/varchar@1']['output'];
+      readonly sess: CodecTypes['pg/json@1']['output'];
+      readonly expire: CodecTypes['pg/timestamp-temporal@1']['output'];
+    };
     readonly Staff: {
       readonly staffId: CodecTypes['pg/int4@1']['output'];
       readonly firstName: Varchar<45>;
@@ -488,6 +493,11 @@ export type FieldInputTypes = {
       readonly rating: CodecTypes['pg/int4@1']['input'] | null;
       readonly reviewText: CodecTypes['pg/text@1']['input'] | null;
       readonly reviewDate: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
+    };
+    readonly Session: {
+      readonly sid: CodecTypes['sql/varchar@1']['input'];
+      readonly sess: CodecTypes['pg/json@1']['input'];
+      readonly expire: CodecTypes['pg/timestamp-temporal@1']['input'];
     };
     readonly Staff: {
       readonly staffId: CodecTypes['pg/int4@1']['input'];
@@ -629,6 +639,11 @@ export type StorageColumnTypes = {
       readonly review_id: CodecTypes['pg/int4@1']['output'];
       readonly review_text: CodecTypes['pg/text@1']['output'] | null;
     };
+    readonly session: {
+      readonly expire: CodecTypes['pg/timestamp-temporal@1']['output'];
+      readonly sess: CodecTypes['pg/json@1']['output'];
+      readonly sid: CodecTypes['sql/varchar@1']['output'];
+    };
     readonly staff: {
       readonly active: CodecTypes['pg/bool@1']['output'];
       readonly address_id: CodecTypes['pg/int2@1']['output'];
@@ -768,6 +783,11 @@ export type StorageColumnInputTypes = {
       readonly review_date: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
       readonly review_id: CodecTypes['pg/int4@1']['input'];
       readonly review_text: CodecTypes['pg/text@1']['input'] | null;
+    };
+    readonly session: {
+      readonly expire: CodecTypes['pg/timestamp-temporal@1']['input'];
+      readonly sess: CodecTypes['pg/json@1']['input'];
+      readonly sid: CodecTypes['sql/varchar@1']['input'];
     };
     readonly staff: {
       readonly active: CodecTypes['pg/bool@1']['input'];
@@ -1771,6 +1791,36 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
+            readonly session: {
+              columns: {
+                readonly sid: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                };
+                readonly sess: {
+                  readonly nativeType: 'json';
+                  readonly codecId: 'pg/json@1';
+                  readonly nullable: false;
+                };
+                readonly expire: {
+                  readonly nativeType: 'timestamp';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 6 };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['sid'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'IDX_session_expire';
+                  readonly columns: readonly ['expire'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
+            };
             readonly staff: {
               columns: {
                 readonly staff_id: {
@@ -2034,6 +2084,7 @@ type ContractBase = Omit<
     readonly review: { readonly namespace: 'public' & NamespaceId; readonly model: 'Review' };
     readonly store: { readonly namespace: 'public' & NamespaceId; readonly model: 'Store' };
     readonly usuario: { readonly namespace: 'public' & NamespaceId; readonly model: 'Usuario' };
+    readonly session: { readonly namespace: 'public' & NamespaceId; readonly model: 'Session' };
   };
   readonly domain: {
     readonly namespaces: {
@@ -3069,6 +3120,36 @@ type ContractBase = Omit<
                 readonly rating: { readonly column: 'rating' };
                 readonly reviewText: { readonly column: 'review_text' };
                 readonly reviewDate: { readonly column: 'review_date' };
+              };
+            };
+          };
+          readonly Session: {
+            readonly fields: {
+              readonly sid: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly sess: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/json@1' };
+              };
+              readonly expire: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                  readonly typeParams: { readonly precision: 6 };
+                };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'session';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly sid: { readonly column: 'sid' };
+                readonly sess: { readonly column: 'sess' };
+                readonly expire: { readonly column: 'expire' };
               };
             };
           };

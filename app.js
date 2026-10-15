@@ -1,7 +1,7 @@
 console.log("¡Proyecto de Node.js iniciado con éxito!");
 
 // importacion de ruta para utenticacion
-import autenticacionRoute from "./src/routes/autenticacionRoute.js"
+import autenticacionRoute from "./src/routes/autenticacionRoute.js";
 
 // Importacion de ruta para usuario
 import usuarioRoutes from "./src/routes/usuarioRoutes.js";
@@ -31,12 +31,45 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// importar configuracion de dotenv
+import "dotenv/config";
+
+// import express-session
+import session from "express-session";
+
+// import connect para postgreSQL
+import connectPgSimple from "connect-pg-simple";
+const PgSession = connectPgSimple(session);
+
+// import pg de pg
+import pg from "pg";
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+// configuracion del pool de sesion
+app.use(
+  session({
+    store: new PgSession({
+      pool,
+      tableName: "session",
+      createTableIfMissing: false,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60,
+    },
+  }),
+);
+
 // puerto para pruebas
 const port = process.env.PORT || 5000;
 
 // configuracion de la base de datos
 import { db } from "./src/prisma/db.ts";
-
 
 // RUTA PARA AUTENTICACION
 app.use("/autenticacion", autenticacionRoute);

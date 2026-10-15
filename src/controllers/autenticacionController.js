@@ -1,4 +1,8 @@
+// import el repositorio
 import { register, login } from "../repository/autenticacionRepository.js";
+
+// // import express-session
+// import session from 'express-session'
 
 //import bcrypt
 import bcrypt from "bcryptjs";
@@ -47,12 +51,34 @@ export const iniciarSesion = async (req, res) => {
 
     console.log(validacionCredenciales);
 
-    // Comparaciones
+    // validaciones
     if (!validacionCredenciales || !validacionDePassword) {
-      return res.status(401).json({ error: "Caredenciales inválidas" });
+      return res.status(500).json({ error: "Caredenciales inválidas" });
     }
 
-    res.status(200).json({ message: "bienvenido" });
+    // Regenerar el ID sesion al iniciar session (evita: "session fixation")
+    console.log(req.session);
+
+    req.session.regenerate((err) => {
+      if (err) {
+        return res.status(500).json({ error: "Error de sesion" });
+      }
+
+      // guardar solo lo necesario
+      req.session.usuario = {
+        id: validacionCredenciales.usuario_id,
+        rol: validacionCredenciales.perfil_id,
+      };
+
+      req.session.save((err) => {
+        if (err) {
+          return res.status(500).json({ error: "Error de sesión" });
+        }
+        res.json({ message: "sesion iniciada" });
+      });
+    });
+
+    // res.status(200).json({ message: "bienvenido" });
   } catch (error) {
     res.status(500).json({ err: error.message });
   }

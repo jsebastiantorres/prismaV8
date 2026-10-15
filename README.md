@@ -43,5 +43,11 @@ Con Prisma 8, ya no importas un new PrismaClient() genérico. El comando emit te
     1.  npm install bcryptjs
 
 
-21. Instalación de JWT
-22. npm intall jsonwebtoken 
+21. Instalación de express-session para manejar sesiones
+npm install express-session.
+
+22. Instalar el connect para postgresql
+npm install connect-pg-simple pg
+
+
+

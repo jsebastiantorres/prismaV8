@@ -19,10 +19,12 @@
     "@prisma/client": "^7.10.0",
     "@prisma/orm-postgres": "^8.0.0-rc.9",
     "bcryptjs": "^3.0.3",
+    "connect-pg-simple": "^10.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.23.0",
+    "pg": "^8.23.1",
     "temporal-polyfill": "^1.0.5"
   },
   "devDependencies": {

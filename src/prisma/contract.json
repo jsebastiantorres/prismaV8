@@ -64,6 +64,10 @@
       "model": "Review",
       "namespace": "public"
     },
+    "session": {
+      "model": "Session",
+      "namespace": "public"
+    },
     "staff": {
       "model": "Staff",
       "namespace": "public"
@@ -1580,6 +1584,50 @@
               },
               "namespaceId": "public",
               "table": "review"
+            }
+          },
+          "Session": {
+            "fields": {
+              "expire": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
+                }
+              },
+              "sess": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/json@1",
+                  "kind": "scalar"
+                }
+              },
+              "sid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "expire": {
+                  "column": "expire"
+                },
+                "sess": {
+                  "column": "sess"
+                },
+                "sid": {
+                  "column": "sid"
+                }
+              },
+              "namespaceId": "public",
+              "table": "session"
             }
           },
           "Staff": {
@@ -3197,6 +3245,44 @@
               },
               "uniques": []
             },
+            "session": {
+              "columns": {
+                "expire": {
+                  "codecId": "pg/timestamp-temporal@1",
+                  "nativeType": "timestamp",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
+                },
+                "sess": {
+                  "codecId": "pg/json@1",
+                  "nativeType": "json",
+                  "nullable": false
+                },
+                "sid": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "expire"
+                  ],
+                  "name": "IDX_session_expire",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "sid"
+                ]
+              },
+              "uniques": []
+            },
             "staff": {
               "columns": {
                 "active": {
@@ -3503,7 +3589,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "60265e68a3b2d9ceb52eb1ab24ab93a1bd70ff85ec135d2d8138b544376616bf"
+    "storageHash": "f09a63a963efcd8df8d97b603d130313c038746c71707ebe8a0e7d28c1d4021a"
   },
   "capabilities": {
     "postgres": {
