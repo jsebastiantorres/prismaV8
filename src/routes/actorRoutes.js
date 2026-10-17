@@ -10,11 +10,15 @@ import {
   eliminarActor,
 } from "../controllers/actorController.js";
 
+
+// importar middleware
+import {comprobarPermiso} from '../middlewares/rolAdminMiddleware.js'
+
 // utilizar Router()
 const router = express.Router();
 
 // LEER todos los actores
-router.get("/", obtenerActoresAll);
+router.get("/", comprobarPermiso, obtenerActoresAll);
 
 // ACTOR por ID
 router.get("/:id", obtenerActorId);
