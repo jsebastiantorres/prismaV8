@@ -33,7 +33,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'f09a63a963efcd8df8d97b603d130313c038746c71707ebe8a0e7d28c1d4021a'>;
+  StorageHashBase<'841ea1752a6b95b6944f3911d5a3ca28da712f9a897d58fd2916a814bd74469b'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -307,6 +307,13 @@ export type FieldOutputTypes = {
       readonly categoryId: CodecTypes['pg/int2@1']['output'];
       readonly lastUpdate: CodecTypes['pg/timestamp-temporal@1']['output'];
     };
+    readonly HistorialSesion: {
+      readonly id: CodecTypes['pg/int8@1']['output'];
+      readonly usuarioId: CodecTypes['pg/int4@1']['output'];
+      readonly inicio: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly fin: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly ip: Varchar<45> | null;
+    };
     readonly Inventory: {
       readonly inventoryId: CodecTypes['pg/int4@1']['output'];
       readonly filmId: CodecTypes['pg/int2@1']['output'];
@@ -451,6 +458,13 @@ export type FieldInputTypes = {
       readonly filmId: CodecTypes['pg/int2@1']['input'];
       readonly categoryId: CodecTypes['pg/int2@1']['input'];
       readonly lastUpdate: CodecTypes['pg/timestamp-temporal@1']['input'];
+    };
+    readonly HistorialSesion: {
+      readonly id: CodecTypes['pg/int8@1']['input'];
+      readonly usuarioId: CodecTypes['pg/int4@1']['input'];
+      readonly inicio: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly fin: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly ip: CodecTypes['sql/varchar@1']['input'] | null;
     };
     readonly Inventory: {
       readonly inventoryId: CodecTypes['pg/int4@1']['input'];
@@ -597,6 +611,13 @@ export type StorageColumnTypes = {
       readonly film_id: CodecTypes['pg/int2@1']['output'];
       readonly last_update: CodecTypes['pg/timestamp-temporal@1']['output'];
     };
+    readonly historial_sesiones: {
+      readonly fin: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly id: CodecTypes['pg/int8@1']['output'];
+      readonly inicio: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly ip: Varchar<45> | null;
+      readonly usuario_id: CodecTypes['pg/int4@1']['output'];
+    };
     readonly inventory: {
       readonly film_id: CodecTypes['pg/int2@1']['output'];
       readonly inventory_id: CodecTypes['pg/int4@1']['output'];
@@ -741,6 +762,13 @@ export type StorageColumnInputTypes = {
       readonly category_id: CodecTypes['pg/int2@1']['input'];
       readonly film_id: CodecTypes['pg/int2@1']['input'];
       readonly last_update: CodecTypes['pg/timestamp-temporal@1']['input'];
+    };
+    readonly historial_sesiones: {
+      readonly fin: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly id: CodecTypes['pg/int8@1']['input'];
+      readonly inicio: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly ip: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly usuario_id: CodecTypes['pg/int4@1']['input'];
     };
     readonly inventory: {
       readonly film_id: CodecTypes['pg/int2@1']['input'];
@@ -1409,6 +1437,51 @@ type ContractBase = Omit<
                   readonly name: 'film_category_film_id_fkey';
                 },
               ];
+            };
+            readonly historial_sesiones: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'int8';
+                  readonly codecId: 'pg/int8@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly usuario_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly inicio: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly fin: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                };
+                readonly ip: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly length: 45 };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'idx_hist_sesiones_usuario';
+                  readonly columns: readonly ['usuario_id', 'inicio'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
             };
             readonly inventory: {
               columns: {
@@ -2085,6 +2158,10 @@ type ContractBase = Omit<
     readonly store: { readonly namespace: 'public' & NamespaceId; readonly model: 'Store' };
     readonly usuario: { readonly namespace: 'public' & NamespaceId; readonly model: 'Usuario' };
     readonly session: { readonly namespace: 'public' & NamespaceId; readonly model: 'Session' };
+    readonly historial_sesiones: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'HistorialSesion';
+    };
   };
   readonly domain: {
     readonly namespaces: {
@@ -2744,6 +2821,52 @@ type ContractBase = Omit<
                 readonly filmId: { readonly column: 'film_id' };
                 readonly categoryId: { readonly column: 'category_id' };
                 readonly lastUpdate: { readonly column: 'last_update' };
+              };
+            };
+          };
+          readonly HistorialSesion: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int8@1' };
+              };
+              readonly usuarioId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly inicio: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+              readonly fin: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+              readonly ip: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 45 };
+                };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'historial_sesiones';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly usuarioId: { readonly column: 'usuario_id' };
+                readonly inicio: { readonly column: 'inicio' };
+                readonly fin: { readonly column: 'fin' };
+                readonly ip: { readonly column: 'ip' };
               };
             };
           };

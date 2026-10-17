@@ -43,7 +43,10 @@ const PgSession = connectPgSimple(session);
 
 // import pg de pg
 import pg from "pg";
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+// importar el pool
+import { pool } from "./src/db/pool.js";
+// const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 // configuracion del pool de sesion
 app.use(
@@ -60,7 +63,7 @@ app.use(
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60,
+      maxAge: 100 * 60 * 60,
     },
   }),
 );

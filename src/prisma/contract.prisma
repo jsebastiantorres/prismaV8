@@ -261,6 +261,17 @@ namespace public {
     @@map("session")
   }
 
+  model HistorialSesion {
+  id        BigInt   @id @default(autoincrement())
+  usuarioId Int      @map("usuario_id")
+  inicio    DateTime @default(now())
+  fin       DateTime
+  ip        VarChar(45)?
+
+  @@index([usuarioId, inicio], map: "idx_hist_sesiones_usuario")
+  @@map("historial_sesiones")
+}
+
   native_enum MpaaRating {
     G = "G"
     PG = "PG"

@@ -40,6 +40,10 @@
       "model": "FilmCategory",
       "namespace": "public"
     },
+    "historial_sesiones": {
+      "model": "HistorialSesion",
+      "namespace": "public"
+    },
     "inventory": {
       "model": "Inventory",
       "namespace": "public"
@@ -1035,6 +1039,70 @@
               },
               "namespaceId": "public",
               "table": "film_category"
+            }
+          },
+          "HistorialSesion": {
+            "fields": {
+              "fin": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int8@1",
+                  "kind": "scalar"
+                }
+              },
+              "inicio": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "ip": {
+                "nullable": true,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 45
+                  }
+                }
+              },
+              "usuarioId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "fin": {
+                  "column": "fin"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "inicio": {
+                  "column": "inicio"
+                },
+                "ip": {
+                  "column": "ip"
+                },
+                "usuarioId": {
+                  "column": "usuario_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "historial_sesiones"
             }
           },
           "Inventory": {
@@ -2765,6 +2833,63 @@
               },
               "uniques": []
             },
+            "historial_sesiones": {
+              "columns": {
+                "fin": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int8@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int8",
+                  "nullable": false
+                },
+                "inicio": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "ip": {
+                  "codecId": "sql/varchar@1",
+                  "nativeType": "character varying",
+                  "nullable": true,
+                  "typeParams": {
+                    "length": 45
+                  }
+                },
+                "usuario_id": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "usuario_id",
+                    "inicio"
+                  ],
+                  "name": "idx_hist_sesiones_usuario",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "inventory": {
               "columns": {
                 "film_id": {
@@ -3589,7 +3714,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "f09a63a963efcd8df8d97b603d130313c038746c71707ebe8a0e7d28c1d4021a"
+    "storageHash": "841ea1752a6b95b6944f3911d5a3ca28da712f9a897d58fd2916a814bd74469b"
   },
   "capabilities": {
     "postgres": {
